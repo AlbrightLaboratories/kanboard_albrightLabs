@@ -1,0 +1,260 @@
+{
+  "project": "kanboard_albrightLabs",
+  "version": "1.0.0",
+  "branchName": "claude/kanboard-albrightlabs",
+  "description": "Hybrid Kanboard system with PHP backend, React frontend, MCP Server for Claude integration, Maestro API for multi-agent orchestration, and Kubernetes deployment",
+  "priorLessonsConsulted": [
+    {
+      "lessonId": "corey-coder-worker-patterns",
+      "summary": "Custom LLM worker registration, label-based routing, sandboxed terminal execution",
+      "source": "local",
+      "appliedAs": "design_constraint"
+    },
+    {
+      "lessonId": "repo-architecture-modules",
+      "summary": "Modules own orchestration file + scripts/, no file >200 LOC, one function per file",
+      "source": "local",
+      "appliedAs": "design_constraint"
+    },
+    {
+      "lessonId": "tdd-discipline",
+      "summary": "Failing test FIRST, minimal code to pass, then refactor",
+      "source": "local",
+      "appliedAs": "acceptance_criterion"
+    }
+  ],
+  "deliveryQuestions": {
+    "committedToRepo": false,
+    "pushedToRepo": false,
+    "rollingRestartDone": false,
+    "survivesPowerInterruption": false,
+    "allApisTested": false,
+    "githubIssueUpdated": false,
+    "anythingMissed": false
+  },
+  "modules": [
+    {
+      "name": "kanboard_client",
+      "path": "backend/scripts/kanboard_client/",
+      "reusable": true,
+      "testable_independently": true,
+      "difficulty": 4,
+      "model_tier": "sonnet",
+      "acceptance_criteria": [
+        {"id": "KC-01", "description": "JSON-RPC client connects to Kanboard API and authenticates", "test_file": "test_client_auth.py", "commit_link": null, "test_link": null, "status": "pending"},
+        {"id": "KC-02", "description": "create_story() creates story in Backlog, returns story ID", "test_file": "test_create_story.py", "commit_link": null, "test_link": null, "status": "pending"},
+        {"id": "KC-03", "description": "move_story() moves story between columns, validates column exists", "test_file": "test_move_story.py", "commit_link": null, "test_link": null, "status": "pending"},
+        {"id": "KC-04", "description": "list_stories() returns stories filtered by column/project/assignee", "test_file": "test_list_stories.py", "commit_link": null, "test_link": null, "status": "pending"},
+        {"id": "KC-05", "description": "update_story() modifies story fields, logs change to activity", "test_file": "test_update_story.py", "commit_link": null, "test_link": null, "status": "pending"},
+        {"id": "KC-06", "description": "Error handling: API timeout returns retry-able error", "test_file": "test_client_timeout.py", "commit_link": null, "test_link": null, "status": "pending"},
+        {"id": "KC-07", "description": "Error handling: Invalid story ID returns 404-equivalent", "test_file": "test_invalid_story.py", "commit_link": null, "test_link": null, "status": "pending"}
+      ],
+      "encounters": []
+    },
+    {
+      "name": "dependency_graph",
+      "path": "backend/scripts/dependency_graph/",
+      "reusable": true,
+      "testable_independently": true,
+      "difficulty": 6,
+      "model_tier": "sonnet",
+      "acceptance_criteria": [
+        {"id": "DG-01", "description": "add_dependency() creates blocks/blocked_by relationship", "test_file": "test_add_dependency.py", "commit_link": null, "test_link": null, "status": "pending"},
+        {"id": "DG-02", "description": "get_graph() returns full dependency tree for story", "test_file": "test_get_graph.py", "commit_link": null, "test_link": null, "status": "pending"},
+        {"id": "DG-03", "description": "Circular dependency detected and rejected with error", "test_file": "test_circular_detect.py", "commit_link": null, "test_link": null, "status": "pending"},
+        {"id": "DG-04", "description": "Blocked story cannot be claimed by agent", "test_file": "test_blocked_claim.py", "commit_link": null, "test_link": null, "status": "pending"},
+        {"id": "DG-05", "description": "When blocker completes, blocked stories become claimable", "test_file": "test_unblock.py", "commit_link": null, "test_link": null, "status": "pending"},
+        {"id": "DG-06", "description": "find_repo() returns repo URL, branch, file paths from story", "test_file": "test_find_repo.py", "commit_link": null, "test_link": null, "status": "pending"},
+        {"id": "DG-07", "description": "affected_files() discovers files from story description", "test_file": "test_affected_files.py", "commit_link": null, "test_link": null, "status": "pending"},
+        {"id": "DG-08", "description": "Cross-repo story correctly links multiple repositories", "test_file": "test_cross_repo.py", "commit_link": null, "test_link": null, "status": "pending"}
+      ],
+      "encounters": []
+    },
+    {
+      "name": "maestro_api",
+      "path": "backend/scripts/maestro_api/",
+      "reusable": true,
+      "testable_independently": true,
+      "difficulty": 7,
+      "model_tier": "opus",
+      "acceptance_criteria": [
+        {"id": "MA-01", "description": "POST /agents/register registers agent, returns agent_id", "test_file": "test_agent_register.py", "commit_link": null, "test_link": null, "status": "pending"},
+        {"id": "MA-02", "description": "GET /agents/{id}/heartbeat updates last_seen, returns agent status", "test_file": "test_heartbeat.py", "commit_link": null, "test_link": null, "status": "pending"},
+        {"id": "MA-03", "description": "GET /stories/available returns only unblocked, unclaimed stories", "test_file": "test_available_stories.py", "commit_link": null, "test_link": null, "status": "pending"},
+        {"id": "MA-04", "description": "POST /stories/{id}/claim assigns story to agent, prevents double-claim", "test_file": "test_claim_story.py", "commit_link": null, "test_link": null, "status": "pending"},
+        {"id": "MA-05", "description": "GET /stories/{id}/prompt returns structured prompt with AC, repo, deps", "test_file": "test_story_prompt.py", "commit_link": null, "test_link": null, "status": "pending"},
+        {"id": "MA-06", "description": "POST /stories/{id}/progress updates progress %, broadcasts via WebSocket", "test_file": "test_progress_update.py", "commit_link": null, "test_link": null, "status": "pending"},
+        {"id": "MA-07", "description": "WebSocket /stream delivers real-time messages to connected agents", "test_file": "test_websocket_stream.py", "commit_link": null, "test_link": null, "status": "pending"},
+        {"id": "MA-08", "description": "Agent timeout: agents with no heartbeat >5min marked stale", "test_file": "test_agent_timeout.py", "commit_link": null, "test_link": null, "status": "pending"},
+        {"id": "MA-09", "description": "Rate limiting: >100 req/min per agent returns 429", "test_file": "test_rate_limit.py", "commit_link": null, "test_link": null, "status": "pending"}
+      ],
+      "encounters": []
+    },
+    {
+      "name": "worker_registry",
+      "path": "backend/scripts/worker_registry/",
+      "reusable": true,
+      "testable_independently": true,
+      "difficulty": 8,
+      "model_tier": "opus",
+      "acceptance_criteria": [
+        {"id": "WR-01", "description": "register_worker() stores worker config, returns worker_id", "test_file": "test_register_worker.py", "commit_link": null, "test_link": null, "status": "pending"},
+        {"id": "WR-02", "description": "list_workers() returns all workers with current status", "test_file": "test_list_workers.py", "commit_link": null, "test_link": null, "status": "pending"},
+        {"id": "WR-03", "description": "update_worker() modifies labels/config without losing state", "test_file": "test_update_worker.py", "commit_link": null, "test_link": null, "status": "pending"},
+        {"id": "WR-04", "description": "deactivate_worker() marks worker offline, stops routing to it", "test_file": "test_deactivate_worker.py", "commit_link": null, "test_link": null, "status": "pending"},
+        {"id": "WR-05", "description": "delete_worker() removes worker and reassigns queued stories", "test_file": "test_delete_worker.py", "commit_link": null, "test_link": null, "status": "pending"},
+        {"id": "WR-06", "description": "Heartbeat updates last_heartbeat, marks worker active", "test_file": "test_heartbeat.py", "commit_link": null, "test_link": null, "status": "pending"},
+        {"id": "WR-07", "description": "3 missed heartbeats marks worker offline", "test_file": "test_missed_heartbeat.py", "commit_link": null, "test_link": null, "status": "pending"},
+        {"id": "WR-08", "description": "Router matches story worker_labels to worker labels", "test_file": "test_label_matching.py", "commit_link": null, "test_link": null, "status": "pending"},
+        {"id": "WR-09", "description": "Router respects preferred_worker when available", "test_file": "test_preferred_worker.py", "commit_link": null, "test_link": null, "status": "pending"},
+        {"id": "WR-10", "description": "Router excludes workers in excluded_workers", "test_file": "test_excluded_workers.py", "commit_link": null, "test_link": null, "status": "pending"},
+        {"id": "WR-11", "description": "Router falls back to any capable worker if no label match", "test_file": "test_fallback_routing.py", "commit_link": null, "test_link": null, "status": "pending"},
+        {"id": "WR-12", "description": "Load balancer routes to worker with lowest active stories", "test_file": "test_load_balancing.py", "commit_link": null, "test_link": null, "status": "pending"},
+        {"id": "WR-13", "description": "GPU-aware routing checks gpu_vram_min against available VRAM", "test_file": "test_gpu_routing.py", "commit_link": null, "test_link": null, "status": "pending"},
+        {"id": "WR-14", "description": "Ollama adapter sends prompt, receives completion", "test_file": "test_ollama_adapter.py", "commit_link": null, "test_link": null, "status": "pending"},
+        {"id": "WR-15", "description": "vLLM adapter sends prompt via OpenAI-compatible API", "test_file": "test_vllm_adapter.py", "commit_link": null, "test_link": null, "status": "pending"},
+        {"id": "WR-16", "description": "MCP adapter wraps Claude Code via MCP protocol", "test_file": "test_mcp_adapter.py", "commit_link": null, "test_link": null, "status": "pending"},
+        {"id": "WR-17", "description": "Sandbox executes command in Docker container with timeout", "test_file": "test_sandbox_docker.py", "commit_link": null, "test_link": null, "status": "pending"},
+        {"id": "WR-18", "description": "Sandbox captures stdout/stderr/exit code", "test_file": "test_sandbox_output.py", "commit_link": null, "test_link": null, "status": "pending"},
+        {"id": "WR-19", "description": "Sandbox enforces resource limits (CPU, memory)", "test_file": "test_sandbox_limits.py", "commit_link": null, "test_link": null, "status": "pending"},
+        {"id": "WR-20", "description": "Sandbox mounts source read-only, workspace writable", "test_file": "test_sandbox_mounts.py", "commit_link": null, "test_link": null, "status": "pending"},
+        {"id": "WR-21", "description": "Kubernetes sandbox runs as Job in dedicated namespace", "test_file": "test_sandbox_k8s.py", "commit_link": null, "test_link": null, "status": "pending"},
+        {"id": "WR-22", "description": "Worker credentials retrieved from k8s secret", "test_file": "test_credentials.py", "commit_link": null, "test_link": null, "status": "pending"}
+      ],
+      "encounters": []
+    },
+    {
+      "name": "skill_framework",
+      "path": "backend/scripts/skill_framework/",
+      "reusable": true,
+      "testable_independently": true,
+      "difficulty": 7,
+      "model_tier": "opus",
+      "acceptance_criteria": [
+        {"id": "SF-01", "description": "skill_runner.execute() runs skills in order: plan->design-a-prd->tdd", "test_file": "test_skill_order.py", "commit_link": null, "test_link": null, "status": "pending"},
+        {"id": "SF-02", "description": "Skill gate blocks In Progress->Validation if plan/prd/tdd incomplete", "test_file": "test_skill_gate_block.py", "commit_link": null, "test_link": null, "status": "pending"},
+        {"id": "SF-03", "description": "Skill gate blocks Validation->Done if prove-it/release-it incomplete", "test_file": "test_validation_gate.py", "commit_link": null, "test_link": null, "status": "pending"},
+        {"id": "SF-04", "description": "Failed skill execution records failure reason, allows retry", "test_file": "test_skill_failure.py", "commit_link": null, "test_link": null, "status": "pending"},
+        {"id": "SF-05", "description": "/plan skill generates implementation steps from story description", "test_file": "test_plan_skill.py", "commit_link": null, "test_link": null, "status": "pending"},
+        {"id": "SF-06", "description": "/design-a-prd skill decomposes story into modules with ACs", "test_file": "test_prd_skill.py", "commit_link": null, "test_link": null, "status": "pending"},
+        {"id": "SF-07", "description": "/tdd skill generates failing tests, then implementation", "test_file": "test_tdd_skill.py", "commit_link": null, "test_link": null, "status": "pending"},
+        {"id": "SF-08", "description": "/prove-it skill runs tests, checks coverage, verifies modularity", "test_file": "test_prove_it_skill.py", "commit_link": null, "test_link": null, "status": "pending"},
+        {"id": "SF-09", "description": "/release-it skill creates release with traceability to issue #17", "test_file": "test_release_it_skill.py", "commit_link": null, "test_link": null, "status": "pending"},
+        {"id": "SF-10", "description": "Skill output stored in JSON, retrievable via skill_output()", "test_file": "test_skill_output.py", "commit_link": null, "test_link": null, "status": "pending"}
+      ],
+      "encounters": []
+    },
+    {
+      "name": "validation_worker",
+      "path": "backend/scripts/validation_worker/",
+      "reusable": true,
+      "testable_independently": true,
+      "difficulty": 5,
+      "model_tier": "sonnet",
+      "acceptance_criteria": [
+        {"id": "VW-01", "description": "Story entering Validation column triggers GitHub workflow", "test_file": "test_validation_trigger.py", "commit_link": null, "test_link": null, "status": "pending"},
+        {"id": "VW-02", "description": "Workflow checks out correct repo + branch from story", "test_file": "test_checkout.py", "commit_link": null, "test_link": null, "status": "pending"},
+        {"id": "VW-03", "description": "prove-it runs: all tests pass = validation passed", "test_file": "test_prove_it_pass.py", "commit_link": null, "test_link": null, "status": "pending"},
+        {"id": "VW-04", "description": "prove-it runs: any test fails = validation failed with log", "test_file": "test_prove_it_fail.py", "commit_link": null, "test_link": null, "status": "pending"},
+        {"id": "VW-05", "description": "Validation result posted back to Kanboard API", "test_file": "test_result_post.py", "commit_link": null, "test_link": null, "status": "pending"},
+        {"id": "VW-06", "description": "Failed validation moves story back to In Progress", "test_file": "test_rework_flow.py", "commit_link": null, "test_link": null, "status": "pending"},
+        {"id": "VW-07", "description": "Failed story carries failure comments for agent to read", "test_file": "test_failure_comments.py", "commit_link": null, "test_link": null, "status": "pending"},
+        {"id": "VW-08", "description": "Passed validation + release-it moves story to Done", "test_file": "test_validation_done.py", "commit_link": null, "test_link": null, "status": "pending"}
+      ],
+      "encounters": []
+    },
+    {
+      "name": "toc_integration",
+      "path": "backend/scripts/toc_integration/",
+      "reusable": true,
+      "testable_independently": true,
+      "difficulty": 3,
+      "model_tier": "haiku",
+      "acceptance_criteria": [
+        {"id": "TI-01", "description": "Story completion posts comment to issue #17", "test_file": "test_toc_comment.py", "commit_link": null, "test_link": null, "status": "pending"},
+        {"id": "TI-02", "description": "Comment includes story title, summary, commit links", "test_file": "test_comment_format.py", "commit_link": null, "test_link": null, "status": "pending"},
+        {"id": "TI-03", "description": "Commit subjects follow TOC format: feat(US-XXX): description", "test_file": "test_commit_format.py", "commit_link": null, "test_link": null, "status": "pending"},
+        {"id": "TI-04", "description": "gh CLI authentication works from cluster", "test_file": "test_gh_auth.py", "commit_link": null, "test_link": null, "status": "pending"}
+      ],
+      "encounters": []
+    },
+    {
+      "name": "kanboard-mcp",
+      "path": "kanboard-mcp/src/",
+      "reusable": true,
+      "testable_independently": true,
+      "difficulty": 6,
+      "model_tier": "sonnet",
+      "acceptance_criteria": [
+        {"id": "MCP-01", "description": "MCP server starts and registers with Claude", "test_file": "test_mcp_start.ts", "commit_link": null, "test_link": null, "status": "pending"},
+        {"id": "MCP-02", "description": "kanboard_create_story tool creates story via API", "test_file": "test_create_story.ts", "commit_link": null, "test_link": null, "status": "pending"},
+        {"id": "MCP-03", "description": "kanboard_claim_story claims story for Claude agent", "test_file": "test_claim_story.ts", "commit_link": null, "test_link": null, "status": "pending"},
+        {"id": "MCP-04", "description": "kanboard_get_story_prompt returns structured prompt", "test_file": "test_get_prompt.ts", "commit_link": null, "test_link": null, "status": "pending"},
+        {"id": "MCP-05", "description": "kanboard_execute_skill triggers skill and returns execution ID", "test_file": "test_execute_skill.ts", "commit_link": null, "test_link": null, "status": "pending"},
+        {"id": "MCP-06", "description": "kanboard_submit_for_validation moves story, triggers workflow", "test_file": "test_submit_validation.ts", "commit_link": null, "test_link": null, "status": "pending"},
+        {"id": "MCP-07", "description": "kanboard_rework_story picks up failed story for fixing", "test_file": "test_rework_story.ts", "commit_link": null, "test_link": null, "status": "pending"},
+        {"id": "MCP-08", "description": "Error handling: Kanboard API down returns graceful error", "test_file": "test_api_down.ts", "commit_link": null, "test_link": null, "status": "pending"}
+      ],
+      "encounters": []
+    },
+    {
+      "name": "kanboard-ui",
+      "path": "kanboard-ui/src/",
+      "reusable": true,
+      "testable_independently": true,
+      "difficulty": 7,
+      "model_tier": "opus",
+      "acceptance_criteria": [
+        {"id": "UI-01", "description": "Board renders columns with draggable cards", "test_file": "Board.test.tsx", "commit_link": null, "test_link": null, "status": "pending"},
+        {"id": "UI-02", "description": "Drag-and-drop moves card, calls API, updates state", "test_file": "DragDrop.test.tsx", "commit_link": null, "test_link": null, "status": "pending"},
+        {"id": "UI-03", "description": "Story modal shows all JIRA-like fields", "test_file": "StoryModal.test.tsx", "commit_link": null, "test_link": null, "status": "pending"},
+        {"id": "UI-04", "description": "SkillTracker shows skill progress (plan/prd/tdd/prove-it/release-it)", "test_file": "SkillTracker.test.tsx", "commit_link": null, "test_link": null, "status": "pending"},
+        {"id": "UI-05", "description": "SkillTracker blocks manual Done move if skills incomplete", "test_file": "SkillGate.test.tsx", "commit_link": null, "test_link": null, "status": "pending"},
+        {"id": "UI-06", "description": "AgentStatus shows active agents with heartbeat indicator", "test_file": "AgentStatus.test.tsx", "commit_link": null, "test_link": null, "status": "pending"},
+        {"id": "UI-07", "description": "ValidationResult shows pass/fail with failure log", "test_file": "ValidationResult.test.tsx", "commit_link": null, "test_link": null, "status": "pending"},
+        {"id": "UI-08", "description": "ReworkButton triggers rework flow for failed story", "test_file": "ReworkButton.test.tsx", "commit_link": null, "test_link": null, "status": "pending"},
+        {"id": "UI-09", "description": "Dependency graph mini-map renders story relationships", "test_file": "DependencyGraph.test.tsx", "commit_link": null, "test_link": null, "status": "pending"},
+        {"id": "UI-10", "description": "Mobile responsive: swipe between columns on <768px", "test_file": "MobileBoard.test.tsx", "commit_link": null, "test_link": null, "status": "pending"},
+        {"id": "UI-11", "description": "WorkerList shows all workers with health indicators", "test_file": "WorkerList.test.tsx", "commit_link": null, "test_link": null, "status": "pending"},
+        {"id": "UI-12", "description": "WorkerRegistration form validates and submits new worker", "test_file": "WorkerRegistration.test.tsx", "commit_link": null, "test_link": null, "status": "pending"},
+        {"id": "UI-13", "description": "StoryWorkerPicker allows setting worker labels on story", "test_file": "StoryWorkerPicker.test.tsx", "commit_link": null, "test_link": null, "status": "pending"},
+        {"id": "UI-14", "description": "WorkerAssignment shows current worker and allows reassignment", "test_file": "WorkerAssignment.test.tsx", "commit_link": null, "test_link": null, "status": "pending"}
+      ],
+      "encounters": []
+    },
+    {
+      "name": "github-worker",
+      "path": "github-worker/",
+      "reusable": true,
+      "testable_independently": true,
+      "difficulty": 4,
+      "model_tier": "sonnet",
+      "acceptance_criteria": [
+        {"id": "GW-01", "description": "Workflow triggered via workflow_dispatch with story_id, repo, branch", "test_file": "manual_test", "commit_link": null, "test_link": null, "status": "pending"},
+        {"id": "GW-02", "description": "Checkout succeeds for any AlbrightLaboratories repo", "test_file": "manual_test", "commit_link": null, "test_link": null, "status": "pending"},
+        {"id": "GW-03", "description": "prove-it script runs test suite, captures exit code", "test_file": "manual_test", "commit_link": null, "test_link": null, "status": "pending"},
+        {"id": "GW-04", "description": "Results posted to Kanboard API via report_results.py", "test_file": "manual_test", "commit_link": null, "test_link": null, "status": "pending"},
+        {"id": "GW-05", "description": "Workflow runs on albright-runners (self-hosted)", "test_file": "manual_test", "commit_link": null, "test_link": null, "status": "pending"}
+      ],
+      "encounters": []
+    }
+  ],
+  "convergence": {
+    "total_acs": 95,
+    "proven": 0,
+    "unproven": 95,
+    "target": 0
+  },
+  "implementation_order": [
+    "kanboard_client",
+    "dependency_graph",
+    "maestro_api",
+    "worker_registry",
+    "skill_framework",
+    "validation_worker",
+    "toc_integration",
+    "kanboard-mcp",
+    "kanboard-ui",
+    "github-worker"
+  ]
+}
