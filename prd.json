@@ -131,16 +131,16 @@
       "difficulty": 7,
       "model_tier": "opus",
       "acceptance_criteria": [
-        {"id": "SF-01", "description": "skill_runner.execute() runs skills in order: plan->design-a-prd->tdd", "test_file": "test_skill_order.py", "commit_link": null, "test_link": null, "status": "pending"},
-        {"id": "SF-02", "description": "Skill gate blocks In Progress->Validation if plan/prd/tdd incomplete", "test_file": "test_skill_gate_block.py", "commit_link": null, "test_link": null, "status": "pending"},
-        {"id": "SF-03", "description": "Skill gate blocks Validation->Done if prove-it/release-it incomplete", "test_file": "test_validation_gate.py", "commit_link": null, "test_link": null, "status": "pending"},
-        {"id": "SF-04", "description": "Failed skill execution records failure reason, allows retry", "test_file": "test_skill_failure.py", "commit_link": null, "test_link": null, "status": "pending"},
-        {"id": "SF-05", "description": "/plan skill generates implementation steps from story description", "test_file": "test_plan_skill.py", "commit_link": null, "test_link": null, "status": "pending"},
-        {"id": "SF-06", "description": "/design-a-prd skill decomposes story into modules with ACs", "test_file": "test_prd_skill.py", "commit_link": null, "test_link": null, "status": "pending"},
-        {"id": "SF-07", "description": "/tdd skill generates failing tests, then implementation", "test_file": "test_tdd_skill.py", "commit_link": null, "test_link": null, "status": "pending"},
-        {"id": "SF-08", "description": "/prove-it skill runs tests, checks coverage, verifies modularity", "test_file": "test_prove_it_skill.py", "commit_link": null, "test_link": null, "status": "pending"},
-        {"id": "SF-09", "description": "/release-it skill creates release with traceability to issue #17", "test_file": "test_release_it_skill.py", "commit_link": null, "test_link": null, "status": "pending"},
-        {"id": "SF-10", "description": "Skill output stored in JSON, retrievable via skill_output()", "test_file": "test_skill_output.py", "commit_link": null, "test_link": null, "status": "pending"}
+        {"id": "SF-01", "description": "skill_runner.execute() runs skills in order: plan->design-a-prd->tdd", "test_file": "test_skill_order.py", "commit_link": "ba6067c", "test_link": "scripts/skill_framework/tests/test_skill_order.py", "status": "proven"},
+        {"id": "SF-02", "description": "Skill gate blocks In Progress->Validation if plan/prd/tdd incomplete", "test_file": "test_skill_gate_block.py", "commit_link": "ba6067c", "test_link": "scripts/skill_framework/tests/test_skill_gate_block.py", "status": "proven"},
+        {"id": "SF-03", "description": "Skill gate blocks Validation->Done if prove-it/release-it incomplete", "test_file": "test_validation_gate.py", "commit_link": "ba6067c", "test_link": "scripts/skill_framework/tests/test_validation_gate.py", "status": "proven"},
+        {"id": "SF-04", "description": "Failed skill execution records failure reason, allows retry", "test_file": "test_skill_failure.py", "commit_link": "ba6067c", "test_link": "scripts/skill_framework/tests/test_skill_failure.py", "status": "proven"},
+        {"id": "SF-05", "description": "/plan skill generates implementation steps from story description", "test_file": "test_plan_skill.py", "commit_link": "ba6067c", "test_link": "scripts/skill_framework/tests/test_plan_skill.py", "status": "proven"},
+        {"id": "SF-06", "description": "/design-a-prd skill decomposes story into modules with ACs", "test_file": "test_prd_skill.py", "commit_link": "ba6067c", "test_link": "scripts/skill_framework/tests/test_prd_skill.py", "status": "proven"},
+        {"id": "SF-07", "description": "/tdd skill generates failing tests, then implementation", "test_file": "test_tdd_skill.py", "commit_link": "ba6067c", "test_link": "scripts/skill_framework/tests/test_tdd_skill.py", "status": "proven"},
+        {"id": "SF-08", "description": "/prove-it skill runs tests, checks coverage, verifies modularity", "test_file": "test_prove_it_skill.py", "commit_link": "ba6067c", "test_link": "scripts/skill_framework/tests/test_prove_it_skill.py", "status": "proven"},
+        {"id": "SF-09", "description": "/release-it skill creates release with traceability to issue #17", "test_file": "test_release_it_skill.py", "commit_link": "ba6067c", "test_link": "scripts/skill_framework/tests/test_release_it_skill.py", "status": "proven"},
+        {"id": "SF-10", "description": "Skill output stored in JSON, retrievable via skill_output()", "test_file": "test_skill_output.py", "commit_link": "ba6067c", "test_link": "scripts/skill_framework/tests/test_skill_output.py", "status": "proven"}
       ],
       "encounters": []
     },
@@ -241,8 +241,8 @@
   ],
   "convergence": {
     "total_acs": 95,
-    "proven": 46,
-    "unproven": 49,
+    "proven": 56,
+    "unproven": 39,
     "target": 0
   },
   "implementation_order": [
