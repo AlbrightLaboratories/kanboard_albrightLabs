@@ -283,22 +283,22 @@
       "difficulty": 7,
       "model_tier": "opus",
       "acceptance_criteria": [
-        {"id": "AIC-01", "description": "Comments with @agent mention trigger agent notification", "test_file": "test_mention_trigger.py", "commit_link": null, "test_link": null, "status": "pending"},
-        {"id": "AIC-02", "description": "Agent receives comment context with story details", "test_file": "test_context_extraction.py", "commit_link": null, "test_link": null, "status": "pending"},
-        {"id": "AIC-03", "description": "Agent response is posted back as comment with agent badge", "test_file": "test_response_posting.py", "commit_link": null, "test_link": null, "status": "pending"},
-        {"id": "AIC-04", "description": "Agent can request sandbox execution via [READY_TO_EXECUTE] marker", "test_file": "test_execution_request.py", "commit_link": null, "test_link": null, "status": "pending"},
-        {"id": "AIC-05", "description": "User approval triggers sandbox pod execution", "test_file": "test_sandbox_trigger.py", "commit_link": null, "test_link": null, "status": "pending"},
-        {"id": "AIC-06", "description": "Sandbox results are posted back as comment", "test_file": "test_sandbox_results.py", "commit_link": null, "test_link": null, "status": "pending"},
-        {"id": "AIC-07", "description": "Successful sandbox updates code in repo via PR", "test_file": "test_pr_creation.py", "commit_link": null, "test_link": null, "status": "pending"},
-        {"id": "AIC-08", "description": "WebSocket broadcasts agent responses in real-time", "test_file": "test_websocket_broadcast.py", "commit_link": null, "test_link": null, "status": "pending"}
+        {"id": "AIC-01", "description": "Comments with @agent mention trigger agent notification", "test_file": "test_mention_trigger.py", "commit_link": "pending", "test_link": "backend/scripts/agent_comments/tests/test_mention_trigger.py", "status": "proven"},
+        {"id": "AIC-02", "description": "Agent receives comment context with story details", "test_file": "test_context_extraction.py", "commit_link": "pending", "test_link": "backend/scripts/agent_comments/tests/test_context_extraction.py", "status": "proven"},
+        {"id": "AIC-03", "description": "Agent response is posted back as comment with agent badge", "test_file": "test_response_posting.py", "commit_link": "pending", "test_link": "backend/scripts/agent_comments/tests/test_response_posting.py", "status": "proven"},
+        {"id": "AIC-04", "description": "Agent can request sandbox execution via [READY_TO_EXECUTE] marker", "test_file": "test_execution_request.py", "commit_link": "pending", "test_link": "backend/scripts/agent_comments/tests/test_execution_request.py", "status": "proven"},
+        {"id": "AIC-05", "description": "User approval triggers sandbox pod execution", "test_file": "test_sandbox_trigger.py", "commit_link": "pending", "test_link": "backend/scripts/agent_comments/tests/test_sandbox_trigger.py", "status": "proven"},
+        {"id": "AIC-06", "description": "Sandbox results are posted back as comment", "test_file": "test_sandbox_results.py", "commit_link": "pending", "test_link": "backend/scripts/agent_comments/tests/test_sandbox_results.py", "status": "proven"},
+        {"id": "AIC-07", "description": "Successful sandbox updates code in repo via PR", "test_file": "test_pr_creation.py", "commit_link": "pending", "test_link": "backend/scripts/agent_comments/tests/test_pr_creation.py", "status": "proven"},
+        {"id": "AIC-08", "description": "WebSocket broadcasts agent responses in real-time", "test_file": "test_websocket_broadcast.py", "commit_link": "pending", "test_link": "backend/scripts/agent_comments/tests/test_websocket_broadcast.py", "status": "proven"}
       ],
       "encounters": []
     }
   ],
   "convergence": {
     "total_acs": 118,
-    "proven": 95,
-    "unproven": 23,
+    "proven": 103,
+    "unproven": 15,
     "target": 0
   },
   "implementation_order": [
