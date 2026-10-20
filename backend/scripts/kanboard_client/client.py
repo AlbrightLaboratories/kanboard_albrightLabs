@@ -141,6 +141,81 @@ class KanboardClient:
         result = self._call("getMe")
         return result is not None
 
+    def get_columns(self, project_id: int) -> list:
+        """
+        Get columns for a project.
+
+        Args:
+            project_id: Project ID
+
+        Returns:
+            List of column dictionaries with id, title, position
+        """
+        return self._call("getColumns", project_id=project_id)
+
+    def create_story(
+        self,
+        project_id: int,
+        title: str,
+        description: str = "",
+        column_id: int = None,
+        owner_id: int = None,
+        priority: int = None,
+        tags: list = None,
+        **kwargs: Any
+    ) -> int:
+        """
+        Create a new story (task) in Kanboard.
+
+        Args:
+            project_id: Project ID to create story in
+            title: Story title
+            description: Story description (optional)
+            column_id: Column ID (defaults to first column/Backlog)
+            owner_id: Assignee user ID (optional)
+            priority: Priority level (optional)
+            tags: List of tag strings (optional)
+            **kwargs: Additional task fields
+
+        Returns:
+            New story ID
+
+        Raises:
+            KanboardError: If story creation fails
+        """
+        # Build params
+        params = {
+            "project_id": project_id,
+            "title": title,
+        }
+
+        if description:
+            params["description"] = description
+
+        if column_id is not None:
+            params["column_id"] = column_id
+        else:
+            # Default to first column (Backlog)
+            columns = self.get_columns(project_id)
+            if columns:
+                # Sort by position, take first
+                backlog = min(columns, key=lambda c: c.get("position", 0))
+                params["column_id"] = backlog["id"]
+
+        if owner_id is not None:
+            params["owner_id"] = owner_id
+
+        if priority is not None:
+            params["priority"] = priority
+
+        if tags is not None:
+            params["tags"] = tags
+
+        # Add any extra kwargs
+        params.update(kwargs)
+
+        return self._call("createTask", **params)
+
     def close(self) -> None:
         """Close HTTP client connection."""
         if self._http_client:
