@@ -78,15 +78,15 @@
       "difficulty": 7,
       "model_tier": "opus",
       "acceptance_criteria": [
-        {"id": "MA-01", "description": "POST /agents/register registers agent, returns agent_id", "test_file": "test_agent_register.py", "commit_link": null, "test_link": null, "status": "pending"},
-        {"id": "MA-02", "description": "GET /agents/{id}/heartbeat updates last_seen, returns agent status", "test_file": "test_heartbeat.py", "commit_link": null, "test_link": null, "status": "pending"},
-        {"id": "MA-03", "description": "GET /stories/available returns only unblocked, unclaimed stories", "test_file": "test_available_stories.py", "commit_link": null, "test_link": null, "status": "pending"},
-        {"id": "MA-04", "description": "POST /stories/{id}/claim assigns story to agent, prevents double-claim", "test_file": "test_claim_story.py", "commit_link": null, "test_link": null, "status": "pending"},
-        {"id": "MA-05", "description": "GET /stories/{id}/prompt returns structured prompt with AC, repo, deps", "test_file": "test_story_prompt.py", "commit_link": null, "test_link": null, "status": "pending"},
-        {"id": "MA-06", "description": "POST /stories/{id}/progress updates progress %, broadcasts via WebSocket", "test_file": "test_progress_update.py", "commit_link": null, "test_link": null, "status": "pending"},
-        {"id": "MA-07", "description": "WebSocket /stream delivers real-time messages to connected agents", "test_file": "test_websocket_stream.py", "commit_link": null, "test_link": null, "status": "pending"},
-        {"id": "MA-08", "description": "Agent timeout: agents with no heartbeat >5min marked stale", "test_file": "test_agent_timeout.py", "commit_link": null, "test_link": null, "status": "pending"},
-        {"id": "MA-09", "description": "Rate limiting: >100 req/min per agent returns 429", "test_file": "test_rate_limit.py", "commit_link": null, "test_link": null, "status": "pending"}
+        {"id": "MA-01", "description": "POST /agents/register registers agent, returns agent_id", "test_file": "test_agent_register.py", "commit_link": "8b751e7", "test_link": "scripts/maestro_api/tests/test_agent_register.py", "status": "proven"},
+        {"id": "MA-02", "description": "GET /agents/{id}/heartbeat updates last_seen, returns agent status", "test_file": "test_heartbeat.py", "commit_link": "8b751e7", "test_link": "scripts/maestro_api/tests/test_heartbeat.py", "status": "proven"},
+        {"id": "MA-03", "description": "GET /stories/available returns only unblocked, unclaimed stories", "test_file": "test_available_stories.py", "commit_link": "8b751e7", "test_link": "scripts/maestro_api/tests/test_available_stories.py", "status": "proven"},
+        {"id": "MA-04", "description": "POST /stories/{id}/claim assigns story to agent, prevents double-claim", "test_file": "test_claim_story.py", "commit_link": "8b751e7", "test_link": "scripts/maestro_api/tests/test_claim_story.py", "status": "proven"},
+        {"id": "MA-05", "description": "GET /stories/{id}/prompt returns structured prompt with AC, repo, deps", "test_file": "test_story_prompt.py", "commit_link": "8b751e7", "test_link": "scripts/maestro_api/tests/test_story_prompt.py", "status": "proven"},
+        {"id": "MA-06", "description": "POST /stories/{id}/progress updates progress %, broadcasts via WebSocket", "test_file": "test_progress_update.py", "commit_link": "8b751e7", "test_link": "scripts/maestro_api/tests/test_progress_update.py", "status": "proven"},
+        {"id": "MA-07", "description": "WebSocket /stream delivers real-time messages to connected agents", "test_file": "test_websocket_stream.py", "commit_link": "8b751e7", "test_link": "scripts/maestro_api/tests/test_websocket_stream.py", "status": "proven"},
+        {"id": "MA-08", "description": "Agent timeout: agents with no heartbeat >5min marked stale", "test_file": "test_agent_timeout.py", "commit_link": "8b751e7", "test_link": "scripts/maestro_api/tests/test_agent_timeout.py", "status": "proven"},
+        {"id": "MA-09", "description": "Rate limiting: >100 req/min per agent returns 429", "test_file": "test_rate_limit.py", "commit_link": "8b751e7", "test_link": "scripts/maestro_api/tests/test_rate_limit.py", "status": "proven"}
       ],
       "encounters": []
     },
@@ -241,8 +241,8 @@
   ],
   "convergence": {
     "total_acs": 95,
-    "proven": 15,
-    "unproven": 80,
+    "proven": 24,
+    "unproven": 71,
     "target": 0
   },
   "implementation_order": [
