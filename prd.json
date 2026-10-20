@@ -237,12 +237,68 @@
         {"id": "GW-05", "description": "Workflow runs on albright-runners (self-hosted)", "test_file": "manual_test", "commit_link": "5808ff2", "test_link": "github-worker/workflows/kanboard-validation.yml", "status": "proven"}
       ],
       "encounters": []
+    },
+    {
+      "name": "mobile",
+      "path": "mobile/",
+      "reusable": true,
+      "testable_independently": true,
+      "difficulty": 6,
+      "model_tier": "sonnet",
+      "acceptance_criteria": [
+        {"id": "MOB-01", "description": "React Native project initializes for iOS and Android", "test_file": "setup_test", "commit_link": null, "test_link": null, "status": "pending"},
+        {"id": "MOB-02", "description": "BoardScreen renders with swipe navigation between columns", "test_file": "BoardScreen.test.tsx", "commit_link": null, "test_link": null, "status": "pending"},
+        {"id": "MOB-03", "description": "StoryCard displays title, priority, labels, and status indicators", "test_file": "StoryCard.test.tsx", "commit_link": null, "test_link": null, "status": "pending"},
+        {"id": "MOB-04", "description": "AgentComments allows @mentions to trigger agent responses", "test_file": "AgentComments.test.tsx", "commit_link": null, "test_link": null, "status": "pending"},
+        {"id": "MOB-05", "description": "Color scheme applies: red=failure, yellow=warning, green=success", "test_file": "colors.test.ts", "commit_link": null, "test_link": null, "status": "pending"},
+        {"id": "MOB-06", "description": "Dashboard uses blue/white/gold/black color scheme", "test_file": "theme.test.ts", "commit_link": null, "test_link": null, "status": "pending"},
+        {"id": "MOB-07", "description": "Pull-to-refresh updates story list from API", "test_file": "BoardScreen.test.tsx", "commit_link": null, "test_link": null, "status": "pending"},
+        {"id": "MOB-08", "description": "Story modal opens with full details and edit capability", "test_file": "StoryModal.test.tsx", "commit_link": null, "test_link": null, "status": "pending"},
+        {"id": "MOB-09", "description": "Offline mode caches stories in AsyncStorage", "test_file": "offline.test.ts", "commit_link": null, "test_link": null, "status": "pending"},
+        {"id": "MOB-10", "description": "Push notifications work on iOS and Android", "test_file": "notifications.test.ts", "commit_link": null, "test_link": null, "status": "pending"}
+      ],
+      "encounters": []
+    },
+    {
+      "name": "shared",
+      "path": "shared/",
+      "reusable": true,
+      "testable_independently": true,
+      "difficulty": 4,
+      "model_tier": "sonnet",
+      "acceptance_criteria": [
+        {"id": "SH-01", "description": "Shared types export all Story, Agent, Worker interfaces", "test_file": "types.test.ts", "commit_link": null, "test_link": null, "status": "pending"},
+        {"id": "SH-02", "description": "KanboardApi client works in browser and React Native", "test_file": "api.test.ts", "commit_link": null, "test_link": null, "status": "pending"},
+        {"id": "SH-03", "description": "Standardized response types unify error handling", "test_file": "responses.test.ts", "commit_link": null, "test_link": null, "status": "pending"},
+        {"id": "SH-04", "description": "Error codes are semantic and include retryable flag", "test_file": "responses.test.ts", "commit_link": null, "test_link": null, "status": "pending"},
+        {"id": "SH-05", "description": "Structured logging helper outputs JSON to stderr", "test_file": "responses.test.ts", "commit_link": null, "test_link": null, "status": "pending"}
+      ],
+      "encounters": []
+    },
+    {
+      "name": "agent-in-comments",
+      "path": "backend/scripts/agent_comments/",
+      "reusable": true,
+      "testable_independently": true,
+      "difficulty": 7,
+      "model_tier": "opus",
+      "acceptance_criteria": [
+        {"id": "AIC-01", "description": "Comments with @agent mention trigger agent notification", "test_file": "test_mention_trigger.py", "commit_link": null, "test_link": null, "status": "pending"},
+        {"id": "AIC-02", "description": "Agent receives comment context with story details", "test_file": "test_context_extraction.py", "commit_link": null, "test_link": null, "status": "pending"},
+        {"id": "AIC-03", "description": "Agent response is posted back as comment with agent badge", "test_file": "test_response_posting.py", "commit_link": null, "test_link": null, "status": "pending"},
+        {"id": "AIC-04", "description": "Agent can request sandbox execution via [READY_TO_EXECUTE] marker", "test_file": "test_execution_request.py", "commit_link": null, "test_link": null, "status": "pending"},
+        {"id": "AIC-05", "description": "User approval triggers sandbox pod execution", "test_file": "test_sandbox_trigger.py", "commit_link": null, "test_link": null, "status": "pending"},
+        {"id": "AIC-06", "description": "Sandbox results are posted back as comment", "test_file": "test_sandbox_results.py", "commit_link": null, "test_link": null, "status": "pending"},
+        {"id": "AIC-07", "description": "Successful sandbox updates code in repo via PR", "test_file": "test_pr_creation.py", "commit_link": null, "test_link": null, "status": "pending"},
+        {"id": "AIC-08", "description": "WebSocket broadcasts agent responses in real-time", "test_file": "test_websocket_broadcast.py", "commit_link": null, "test_link": null, "status": "pending"}
+      ],
+      "encounters": []
     }
   ],
   "convergence": {
-    "total_acs": 95,
+    "total_acs": 118,
     "proven": 95,
-    "unproven": 0,
+    "unproven": 23,
     "target": 0
   },
   "implementation_order": [
@@ -255,6 +311,9 @@
     "toc_integration",
     "kanboard-mcp",
     "kanboard-ui",
-    "github-worker"
+    "github-worker",
+    "shared",
+    "mobile",
+    "agent-in-comments"
   ]
 }
