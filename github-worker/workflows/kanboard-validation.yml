@@ -1,0 +1,132 @@
+# GitHub Actions workflow for Kanboard story validation
+# Implements GW-01, GW-02, GW-03, GW-04, GW-05
+#
+# Triggered via workflow_dispatch with story_id, repo, branch
+# Checks out the specified repo/branch, runs prove-it validation,
+# and reports results back to Kanboard API.
+
+name: Kanboard Validation
+
+on:
+  workflow_dispatch:
+    inputs:
+      story_id:
+        description: 'Story ID to validate'
+        required: true
+        type: string
+      repo:
+        description: 'Repository to validate (owner/repo format)'
+        required: true
+        type: string
+      branch:
+        description: 'Branch to validate'
+        required: true
+        type: string
+      kanboard_api_url:
+        description: 'Kanboard API endpoint'
+        required: false
+        type: string
+        default: 'http://kanboard.hr-project-tracking.svc.cluster.local/api'
+
+env:
+  STORY_ID: ${{ inputs.story_id }}
+  TARGET_REPO: ${{ inputs.repo }}
+  TARGET_BRANCH: ${{ inputs.branch }}
+  KANBOARD_API_URL: ${{ inputs.kanboard_api_url }}
+
+jobs:
+  validate:
+    # GW-05: Runs on albright-runners (self-hosted)
+    runs-on: albright-runners
+    timeout-minutes: 30
+
+    steps:
+      - name: Log validation start
+        run: |
+          echo "Starting validation for story: $STORY_ID"
+          echo "Repository: $TARGET_REPO"
+          echo "Branch: $TARGET_BRANCH"
+
+      # GW-02: Checkout succeeds for any AlbrightLaboratories repo
+      - name: Checkout target repository
+        uses: actions/checkout@v4
+        with:
+          repository: ${{ env.TARGET_REPO }}
+          ref: ${{ env.TARGET_BRANCH }}
+          token: ${{ secrets.GITHUB_TOKEN }}
+          path: target-repo
+
+      - name: Checkout validation scripts
+        uses: actions/checkout@v4
+        with:
+          path: validation-scripts
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install dependencies
+        run: |
+          pip install requests pytest pytest-cov
+          cd target-repo
+          if [ -f requirements.txt ]; then
+            pip install -r requirements.txt
+          fi
+          if [ -f package.json ]; then
+            npm install
+          fi
+
+      # GW-03: prove-it script runs test suite, captures exit code
+      - name: Run prove-it validation
+        id: prove_it
+        working-directory: target-repo
+        run: |
+          echo "Running prove-it validation..."
+          ../validation-scripts/github-worker/scripts/run_prove_it.sh 2>&1 | tee prove_it_output.log
+          echo "exit_code=${PIPESTATUS[0]}" >> $GITHUB_OUTPUT
+        continue-on-error: true
+
+      - name: Capture validation results
+        id: results
+        run: |
+          if [ "${{ steps.prove_it.outputs.exit_code }}" == "0" ]; then
+            echo "status=passed" >> $GITHUB_OUTPUT
+            echo "message=All tests passed" >> $GITHUB_OUTPUT
+          else
+            echo "status=failed" >> $GITHUB_OUTPUT
+            # Extract failure messages from log
+            FAILURES=$(tail -50 target-repo/prove_it_output.log | grep -E "(FAILED|ERROR|AssertionError)" | head -10 || echo "Tests failed - see log for details")
+            echo "message<<EOF" >> $GITHUB_OUTPUT
+            echo "$FAILURES" >> $GITHUB_OUTPUT
+            echo "EOF" >> $GITHUB_OUTPUT
+          fi
+
+      # GW-04: Results posted to Kanboard API via report_results.py
+      - name: Report results to Kanboard
+        env:
+          VALIDATION_STATUS: ${{ steps.results.outputs.status }}
+          VALIDATION_MESSAGE: ${{ steps.results.outputs.message }}
+        run: |
+          python validation-scripts/github-worker/scripts/report_results.py \
+            --story-id "$STORY_ID" \
+            --status "$VALIDATION_STATUS" \
+            --message "$VALIDATION_MESSAGE" \
+            --api-url "$KANBOARD_API_URL"
+
+      - name: Upload validation log
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: validation-log-${{ env.STORY_ID }}
+          path: target-repo/prove_it_output.log
+          retention-days: 7
+
+      - name: Set job status
+        if: steps.results.outputs.status == 'failed'
+        run: exit 1
