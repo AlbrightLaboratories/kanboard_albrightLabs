@@ -59,14 +59,14 @@
       "difficulty": 6,
       "model_tier": "sonnet",
       "acceptance_criteria": [
-        {"id": "DG-01", "description": "add_dependency() creates blocks/blocked_by relationship", "test_file": "test_add_dependency.py", "commit_link": null, "test_link": null, "status": "pending"},
-        {"id": "DG-02", "description": "get_graph() returns full dependency tree for story", "test_file": "test_get_graph.py", "commit_link": null, "test_link": null, "status": "pending"},
-        {"id": "DG-03", "description": "Circular dependency detected and rejected with error", "test_file": "test_circular_detect.py", "commit_link": null, "test_link": null, "status": "pending"},
-        {"id": "DG-04", "description": "Blocked story cannot be claimed by agent", "test_file": "test_blocked_claim.py", "commit_link": null, "test_link": null, "status": "pending"},
-        {"id": "DG-05", "description": "When blocker completes, blocked stories become claimable", "test_file": "test_unblock.py", "commit_link": null, "test_link": null, "status": "pending"},
-        {"id": "DG-06", "description": "find_repo() returns repo URL, branch, file paths from story", "test_file": "test_find_repo.py", "commit_link": null, "test_link": null, "status": "pending"},
-        {"id": "DG-07", "description": "affected_files() discovers files from story description", "test_file": "test_affected_files.py", "commit_link": null, "test_link": null, "status": "pending"},
-        {"id": "DG-08", "description": "Cross-repo story correctly links multiple repositories", "test_file": "test_cross_repo.py", "commit_link": null, "test_link": null, "status": "pending"}
+        {"id": "DG-01", "description": "add_dependency() creates blocks/blocked_by relationship", "test_file": "test_add_dependency.py", "commit_link": "f39bab9", "test_link": "scripts/dependency_graph/tests/test_add_dependency.py", "status": "proven"},
+        {"id": "DG-02", "description": "get_graph() returns full dependency tree for story", "test_file": "test_get_graph.py", "commit_link": "f39bab9", "test_link": "scripts/dependency_graph/tests/test_get_graph.py", "status": "proven"},
+        {"id": "DG-03", "description": "Circular dependency detected and rejected with error", "test_file": "test_circular_detect.py", "commit_link": "f39bab9", "test_link": "scripts/dependency_graph/tests/test_circular_detect.py", "status": "proven"},
+        {"id": "DG-04", "description": "Blocked story cannot be claimed by agent", "test_file": "test_blocked_claim.py", "commit_link": "f39bab9", "test_link": "scripts/dependency_graph/tests/test_blocked_claim.py", "status": "proven"},
+        {"id": "DG-05", "description": "When blocker completes, blocked stories become claimable", "test_file": "test_unblock.py", "commit_link": "f39bab9", "test_link": "scripts/dependency_graph/tests/test_unblock.py", "status": "proven"},
+        {"id": "DG-06", "description": "find_repo() returns repo URL, branch, file paths from story", "test_file": "test_find_repo.py", "commit_link": "f39bab9", "test_link": "scripts/dependency_graph/tests/test_find_repo.py", "status": "proven"},
+        {"id": "DG-07", "description": "affected_files() discovers files from story description", "test_file": "test_affected_files.py", "commit_link": "f39bab9", "test_link": "scripts/dependency_graph/tests/test_affected_files.py", "status": "proven"},
+        {"id": "DG-08", "description": "Cross-repo story correctly links multiple repositories", "test_file": "test_cross_repo.py", "commit_link": "f39bab9", "test_link": "scripts/dependency_graph/tests/test_cross_repo.py", "status": "proven"}
       ],
       "encounters": []
     },
@@ -241,8 +241,8 @@
   ],
   "convergence": {
     "total_acs": 95,
-    "proven": 7,
-    "unproven": 88,
+    "proven": 15,
+    "unproven": 80,
     "target": 0
   },
   "implementation_order": [
