@@ -152,14 +152,14 @@
       "difficulty": 5,
       "model_tier": "sonnet",
       "acceptance_criteria": [
-        {"id": "VW-01", "description": "Story entering Validation column triggers GitHub workflow", "test_file": "test_validation_trigger.py", "commit_link": null, "test_link": null, "status": "pending"},
-        {"id": "VW-02", "description": "Workflow checks out correct repo + branch from story", "test_file": "test_checkout.py", "commit_link": null, "test_link": null, "status": "pending"},
-        {"id": "VW-03", "description": "prove-it runs: all tests pass = validation passed", "test_file": "test_prove_it_pass.py", "commit_link": null, "test_link": null, "status": "pending"},
-        {"id": "VW-04", "description": "prove-it runs: any test fails = validation failed with log", "test_file": "test_prove_it_fail.py", "commit_link": null, "test_link": null, "status": "pending"},
-        {"id": "VW-05", "description": "Validation result posted back to Kanboard API", "test_file": "test_result_post.py", "commit_link": null, "test_link": null, "status": "pending"},
-        {"id": "VW-06", "description": "Failed validation moves story back to In Progress", "test_file": "test_rework_flow.py", "commit_link": null, "test_link": null, "status": "pending"},
-        {"id": "VW-07", "description": "Failed story carries failure comments for agent to read", "test_file": "test_failure_comments.py", "commit_link": null, "test_link": null, "status": "pending"},
-        {"id": "VW-08", "description": "Passed validation + release-it moves story to Done", "test_file": "test_validation_done.py", "commit_link": null, "test_link": null, "status": "pending"}
+        {"id": "VW-01", "description": "Story entering Validation column triggers GitHub workflow", "test_file": "test_validation_trigger.py", "commit_link": "f8544b9", "test_link": "scripts/validation_worker/tests/test_validation_trigger.py", "status": "proven"},
+        {"id": "VW-02", "description": "Workflow checks out correct repo + branch from story", "test_file": "test_checkout.py", "commit_link": "f8544b9", "test_link": "scripts/validation_worker/tests/test_checkout.py", "status": "proven"},
+        {"id": "VW-03", "description": "prove-it runs: all tests pass = validation passed", "test_file": "test_prove_it_pass.py", "commit_link": "f8544b9", "test_link": "scripts/validation_worker/tests/test_prove_it_pass.py", "status": "proven"},
+        {"id": "VW-04", "description": "prove-it runs: any test fails = validation failed with log", "test_file": "test_prove_it_fail.py", "commit_link": "f8544b9", "test_link": "scripts/validation_worker/tests/test_prove_it_fail.py", "status": "proven"},
+        {"id": "VW-05", "description": "Validation result posted back to Kanboard API", "test_file": "test_result_post.py", "commit_link": "f8544b9", "test_link": "scripts/validation_worker/tests/test_result_post.py", "status": "proven"},
+        {"id": "VW-06", "description": "Failed validation moves story back to In Progress", "test_file": "test_rework_flow.py", "commit_link": "f8544b9", "test_link": "scripts/validation_worker/tests/test_rework_flow.py", "status": "proven"},
+        {"id": "VW-07", "description": "Failed story carries failure comments for agent to read", "test_file": "test_failure_comments.py", "commit_link": "f8544b9", "test_link": "scripts/validation_worker/tests/test_failure_comments.py", "status": "proven"},
+        {"id": "VW-08", "description": "Passed validation + release-it moves story to Done", "test_file": "test_validation_done.py", "commit_link": "f8544b9", "test_link": "scripts/validation_worker/tests/test_validation_done.py", "status": "proven"}
       ],
       "encounters": []
     },
@@ -241,8 +241,8 @@
   ],
   "convergence": {
     "total_acs": 95,
-    "proven": 56,
-    "unproven": 39,
+    "proven": 64,
+    "unproven": 31,
     "target": 0
   },
   "implementation_order": [
