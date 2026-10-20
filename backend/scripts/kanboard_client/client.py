@@ -11,7 +11,7 @@ from typing import Any
 
 import httpx
 
-from .exceptions import AuthenticationError, KanboardError
+from .exceptions import AuthenticationError, KanboardError, NotFoundError, TimeoutError
 
 
 class KanboardClient:
@@ -95,6 +95,7 @@ class KanboardClient:
 
         Raises:
             AuthenticationError: If authentication fails
+            TimeoutError: If request times out (retryable)
             KanboardError: For other API errors
         """
         payload = {
@@ -109,8 +110,11 @@ class KanboardClient:
             "Content-Type": "application/json"
         }
 
-        client = self._get_client()
-        response = client.post(self.url, json=payload, headers=headers)
+        try:
+            client = self._get_client()
+            response = client.post(self.url, json=payload, headers=headers)
+        except httpx.TimeoutException as e:
+            raise TimeoutError(f"Request timed out: {e}")
 
         if response.status_code == 401:
             data = response.json()
@@ -215,6 +219,135 @@ class KanboardClient:
         params.update(kwargs)
 
         return self._call("createTask", **params)
+
+    def get_story(self, task_id: int) -> dict:
+        """
+        Get a story by ID.
+
+        Args:
+            task_id: Story/task ID
+
+        Returns:
+            Story dictionary
+
+        Raises:
+            NotFoundError: If story doesn't exist
+        """
+        result = self._call("getTask", task_id=task_id)
+        if result is None:
+            raise NotFoundError(f"Story {task_id} not found")
+        return result
+
+    def list_stories(
+        self,
+        project_id: int,
+        column_id: int = None,
+        owner_id: int = None,
+        **kwargs: Any
+    ) -> list:
+        """
+        List stories with optional filters.
+
+        Args:
+            project_id: Project ID to list stories from
+            column_id: Filter by column (optional)
+            owner_id: Filter by assignee (optional)
+            **kwargs: Additional filter parameters
+
+        Returns:
+            List of story dictionaries
+        """
+        params = {"project_id": project_id}
+
+        if column_id is not None:
+            params["column_id"] = column_id
+
+        if owner_id is not None:
+            params["owner_id"] = owner_id
+
+        params.update(kwargs)
+
+        result = self._call("getAllTasks", **params)
+        return result if result else []
+
+    def move_story(
+        self,
+        task_id: int,
+        column_id: int,
+        position: int = 1,
+        project_id: int = None,
+        validate: bool = False
+    ) -> bool:
+        """
+        Move a story to a different column.
+
+        Args:
+            task_id: Story/task ID
+            column_id: Target column ID
+            position: Position within column (default: 1 = top)
+            project_id: Project ID (required if validate=True)
+            validate: Whether to validate column exists first
+
+        Returns:
+            True if move succeeded, False otherwise
+
+        Raises:
+            NotFoundError: If validate=True and column doesn't exist
+        """
+        if validate and project_id is not None:
+            columns = self.get_columns(project_id)
+            column_ids = [c["id"] for c in columns]
+            if column_id not in column_ids:
+                raise NotFoundError(f"Column {column_id} not found")
+
+        result = self._call(
+            "moveTaskPosition",
+            task_id=task_id,
+            column_id=column_id,
+            position=position,
+            project_id=project_id or 0,
+            swimlane_id=0
+        )
+        return result is True
+
+    def update_story(
+        self,
+        task_id: int,
+        title: str = None,
+        description: str = None,
+        owner_id: int = None,
+        priority: int = None,
+        **kwargs: Any
+    ) -> bool:
+        """
+        Update story fields.
+
+        Args:
+            task_id: Story/task ID
+            title: New title (optional)
+            description: New description (optional)
+            owner_id: New assignee (optional)
+            priority: New priority (optional)
+            **kwargs: Additional fields to update
+
+        Returns:
+            True if update succeeded, False otherwise
+        """
+        params = {"id": task_id}
+
+        if title is not None:
+            params["title"] = title
+        if description is not None:
+            params["description"] = description
+        if owner_id is not None:
+            params["owner_id"] = owner_id
+        if priority is not None:
+            params["priority"] = priority
+
+        params.update(kwargs)
+
+        result = self._call("updateTask", **params)
+        return result is True
 
     def close(self) -> None:
         """Close HTTP client connection."""

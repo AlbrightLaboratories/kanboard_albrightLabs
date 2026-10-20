@@ -42,7 +42,7 @@
       "model_tier": "sonnet",
       "acceptance_criteria": [
         {"id": "KC-01", "description": "JSON-RPC client connects to Kanboard API and authenticates", "test_file": "test_client_auth.py", "commit_link": "edb9538", "test_link": "scripts/kanboard_client/tests/test_client_auth.py", "status": "proven"},
-        {"id": "KC-02", "description": "create_story() creates story in Backlog, returns story ID", "test_file": "test_create_story.py", "commit_link": null, "test_link": null, "status": "pending"},
+        {"id": "KC-02", "description": "create_story() creates story in Backlog, returns story ID", "test_file": "test_create_story.py", "commit_link": "eaa7b77", "test_link": "scripts/kanboard_client/tests/test_create_story.py", "status": "proven"},
         {"id": "KC-03", "description": "move_story() moves story between columns, validates column exists", "test_file": "test_move_story.py", "commit_link": null, "test_link": null, "status": "pending"},
         {"id": "KC-04", "description": "list_stories() returns stories filtered by column/project/assignee", "test_file": "test_list_stories.py", "commit_link": null, "test_link": null, "status": "pending"},
         {"id": "KC-05", "description": "update_story() modifies story fields, logs change to activity", "test_file": "test_update_story.py", "commit_link": null, "test_link": null, "status": "pending"},
@@ -241,8 +241,8 @@
   ],
   "convergence": {
     "total_acs": 95,
-    "proven": 1,
-    "unproven": 94,
+    "proven": 2,
+    "unproven": 93,
     "target": 0
   },
   "implementation_order": [
