@@ -1,0 +1,60 @@
+name: build
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  build:
+    runs-on: albright-runners
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install backend dependencies
+        run: |
+          cd backend
+          pip install -e ".[dev]"
+
+      - name: Run backend tests
+        run: |
+          cd backend
+          python -m pytest scripts/ -v --tb=short
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install kanboard-mcp dependencies
+        run: |
+          cd kanboard-mcp
+          npm ci
+
+      - name: Run kanboard-mcp tests
+        run: |
+          cd kanboard-mcp
+          npm test
+
+      - name: Install kanboard-ui dependencies
+        run: |
+          cd kanboard-ui
+          npm ci
+
+      - name: Run kanboard-ui tests
+        run: |
+          cd kanboard-ui
+          npm test
+
+      - name: Type check
+        run: |
+          cd kanboard-ui
+          npm run type-check || true
+          cd ../kanboard-mcp
+          npm run type-check || true

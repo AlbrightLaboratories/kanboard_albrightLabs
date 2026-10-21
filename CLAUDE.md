@@ -1,58 +1,111 @@
-# Kanboard AlbrightLabs - Claude Conventions
+# Kanboard AlbrightLabs - Claude Code Conventions
 
-## Project Overview
+## Repository Info
 
-Hybrid Kanboard system with stock PHP backend, custom React frontend, MCP Server for Claude integration, and AI agent orchestration via Maestro API.
+- **URL**: https://github.com/AlbrightLaboratories/kanboard_albrightLabs
+- **Visibility**: Public
+- **Branch Protection**: `main` branch requires `build` CI to pass
+- **Runners**: `albright-runners` (self-hosted)
 
-## Namespace
+## Branch Protection Rules
 
-All Kubernetes resources deploy to: `HR-project-tracking`
+The `main` branch is protected:
+- **Required status checks**: `build` must pass
+- **No force pushes**: Disabled
+- **No deletions**: Disabled
+- **Enforce admins**: Disabled (admins can bypass)
 
-## Implementation Order (Dependencies Respected)
+**Only GitHub Actions can effectively update main** - all changes must go through PR with passing CI.
 
-1. `kanboard_client` - Foundation (all modules depend on this)
-2. `dependency_graph` - Needed for agent scheduling
-3. `maestro_api` - Agent communication layer
-4. `worker_registry` - Custom LLM worker management
-5. `skill_framework` - Mandatory skills orchestration
-6. `validation_worker` - GitHub Actions integration
-7. `toc_integration` - Master TOC updates
-8. `kanboard-mcp` - MCP Server for Claude
-9. `kanboard-ui` - React frontend
-10. `github-worker` - Validation automation
-
-## Module Rules (repo-architecture)
-
-- Each module in `backend/scripts/<module>/`
-- Orchestration file calls into `scripts/` directory
-- No file exceeds 200 LOC
-- One function per file where practical
-- Every module reusable and testable independently
-
-## TDD Discipline
-
-Every acceptance criterion requires:
-1. Failing test FIRST (red)
-2. Minimal implementation (green)
-3. Refactor if needed
-4. Prove on real surface
-
-## Commit Format
+## Architecture
 
 ```
-feat(AC-ID): description
+kanboard_albrightLabs/
+├── backend/               # Python backend (555 tests)
+│   └── scripts/
+│       ├── kanboard_client/    # JSON-RPC client for Kanboard PHP API
+│       ├── maestro_api/        # Two-way agent communication (REST + WebSocket)
+│       ├── skill_framework/    # Mandatory skills (plan/prd/tdd/prove-it/release-it)
+│       ├── worker_registry/    # Custom LLM worker management
+│       ├── agent_comments/     # Agent-in-comments feature (86 tests)
+│       ├── dependency_graph/   # Story dependencies + repo awareness
+│       ├── validation_worker/  # GitHub Actions integration
+│       └── toc_integration/    # Master TOC updates
+├── kanboard-mcp/          # MCP Server for Claude integration
+├── kanboard-ui/           # React frontend with dnd-kit
+├── mobile/                # React Native mobile app
+├── shared/                # Shared types and API client
+├── github-worker/         # GitHub Actions validation workflow
+└── k8s/                   # Kubernetes manifests
 ```
 
-Example: `feat(KC-01): JSON-RPC client connects and authenticates`
+## Acceptance Criteria Tracking
 
-## AC Checkbox Rule
+All work is tracked via `prd.json` at repo root:
+- **Total ACs**: 118
+- **Proven**: 103 (88%)
+- **Remaining**: 15 (mobile setup + shared tests)
 
-A checkbox is checked ONLY with:
-- `commit_link`: SHA of implementing commit
-- `test_link`: CI run showing green tests
+Every AC must have:
+- Passing test (commit link + test file link)
+- Status: `proven` when complete
 
-## Convergence Target
+## Color Scheme
 
-95 acceptance criteria → 0 unproven
+| Color | Hex | Meaning |
+|-------|-----|---------|
+| Red | `#DC2626` | Failure, serious warning, money loss |
+| Yellow | `#F59E0B` | Warning, may impact performance |
+| Green | `#10B981` | Success, money making, working |
+| Blue | `#2563EB` | Primary brand (dashboard) |
+| White | `#FFFFFF` | Background |
+| Gold | `#D4AF37` | Accent, highlights |
+| Black | `#111827` | Text, borders |
 
-Track progress in `prd.json` under `convergence.proven`
+## Agent-in-Comments Feature
+
+Users can @mention agents in story comments:
+- `@claude`, `@gemini`, `@codex`, `@corey-coder`
+- Agent responds in thread
+- `[READY_TO_EXECUTE]` marker requests sandbox execution
+- Sandbox results posted back as comments
+- Successful runs create PRs automatically
+
+## Commands
+
+```bash
+# Backend tests (555 tests)
+cd backend && python3 -m pytest scripts/ -v
+
+# MCP server tests
+cd kanboard-mcp && npm test
+
+# UI tests
+cd kanboard-ui && npm test
+
+# Mobile tests
+cd mobile && npm test
+```
+
+## Deployment
+
+Kubernetes namespace: `HR-project-tracking`
+
+```bash
+kubectl apply -k k8s/
+```
+
+## Workflow
+
+1. Create feature branch from `main`
+2. Implement with TDD (failing test first)
+3. Update `prd.json` ACs to `proven`
+4. Push and create PR
+5. CI must pass (`build` workflow)
+6. Merge to `main`
+
+## Related Resources
+
+- **Master TOC**: https://github.com/AlbrightLaboratories/daxxon-ai-gpu-01/issues/17
+- **Corey-coder cluster**: Services in `corey-coder` namespace
+- **GPU routing**: Through `corey-router:8081`
