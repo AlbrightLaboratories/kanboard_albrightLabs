@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: hr-project-tracking
+  labels:
+    app.kubernetes.io/name: kanboard
+    app.kubernetes.io/part-of: kanboard-albrightlabs

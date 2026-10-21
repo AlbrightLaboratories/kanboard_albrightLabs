@@ -1,0 +1,22 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: kanboard-backend
+  namespace: hr-project-tracking
+  labels:
+    app.kubernetes.io/name: kanboard-backend
+    app.kubernetes.io/component: api
+spec:
+  type: ClusterIP
+  ports:
+    - port: 8000
+      targetPort: 8000
+      protocol: TCP
+      name: http
+    - port: 8001
+      targetPort: 8001
+      protocol: TCP
+      name: websocket
+  selector:
+    app.kubernetes.io/name: kanboard-backend
+    app.kubernetes.io/component: api

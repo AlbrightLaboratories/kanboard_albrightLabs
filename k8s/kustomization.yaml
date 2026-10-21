@@ -1,0 +1,43 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+namespace: hr-project-tracking
+
+resources:
+  # Core namespace
+  - namespace.yaml
+  - sandbox-namespace.yaml
+
+  # Kanboard PHP backend
+  - kanboard/pvc.yaml
+  - kanboard/configmap.yaml
+  - kanboard/deployment.yaml
+  - kanboard/service.yaml
+
+  # React frontend
+  - kanboard-ui/deployment.yaml
+  - kanboard-ui/service.yaml
+
+  # Python backend API (Maestro)
+  - backend/serviceaccount.yaml
+  - backend/deployment.yaml
+  - backend/service.yaml
+
+  # MCP Server
+  - kanboard-mcp/deployment.yaml
+  - kanboard-mcp/service.yaml
+
+  # Ingress for external access
+  - ingress.yaml
+
+commonLabels:
+  app.kubernetes.io/part-of: kanboard-albrightlabs
+  app.kubernetes.io/managed-by: kustomize
+
+images:
+  - name: ghcr.io/albrightlaboratories/kanboard-ui
+    newTag: latest
+  - name: ghcr.io/albrightlaboratories/kanboard-backend
+    newTag: latest
+  - name: ghcr.io/albrightlaboratories/kanboard-mcp
+    newTag: latest

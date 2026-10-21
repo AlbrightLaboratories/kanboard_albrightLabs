@@ -1,0 +1,66 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: kanboard-backend
+  namespace: hr-project-tracking
+  labels:
+    app.kubernetes.io/name: kanboard-backend
+    app.kubernetes.io/component: api
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: kanboard-backend
+      app.kubernetes.io/component: api
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: kanboard-backend
+        app.kubernetes.io/component: api
+    spec:
+      serviceAccountName: kanboard-backend
+      containers:
+        - name: kanboard-backend
+          image: ghcr.io/albrightlaboratories/kanboard-backend:latest
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 8000
+              name: http
+            - containerPort: 8001
+              name: websocket
+          env:
+            - name: KANBOARD_URL
+              value: "http://kanboard.hr-project-tracking.svc.cluster.local"
+            - name: KANBOARD_API_TOKEN
+              valueFrom:
+                secretKeyRef:
+                  name: kanboard-secrets
+                  key: api-token
+            - name: GITHUB_TOKEN
+              valueFrom:
+                secretKeyRef:
+                  name: kanboard-secrets
+                  key: github-token
+            - name: SANDBOX_NAMESPACE
+              value: "hr-project-tracking-sandbox"
+            - name: SANDBOX_IMAGE
+              value: "ghcr.io/albrightlaboratories/kanboard-sandbox:latest"
+          resources:
+            requests:
+              memory: "256Mi"
+              cpu: "100m"
+            limits:
+              memory: "512Mi"
+              cpu: "500m"
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: 8000
+            initialDelaySeconds: 10
+            periodSeconds: 10
+          readinessProbe:
+            httpGet:
+              path: /ready
+              port: 8000
+            initialDelaySeconds: 5
+            periodSeconds: 5
