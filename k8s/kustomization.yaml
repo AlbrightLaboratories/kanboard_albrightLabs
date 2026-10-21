@@ -4,10 +4,6 @@ kind: Kustomization
 namespace: hr-project-tracking
 
 resources:
-  # Core namespace
-  - namespace.yaml
-  - sandbox-namespace.yaml
-
   # Kanboard PHP backend
   - kanboard/pvc.yaml
   - kanboard/configmap.yaml
