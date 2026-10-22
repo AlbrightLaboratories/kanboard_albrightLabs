@@ -42,7 +42,7 @@ spec:
             - name: HERMES_ENABLED
               value: "1"
             - name: POLL_INTERVAL_SECONDS
-              value: "5"
+              value: "30"  # Reduced from 5s to prevent SQLite lock contention
             # Redis for comment tracking persistence (optional)
             # - name: REDIS_URL
             #   value: "redis://redis.hr-project-tracking.svc.cluster.local:6379"
