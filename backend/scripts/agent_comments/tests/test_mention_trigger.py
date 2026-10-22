@@ -128,3 +128,32 @@ class TestGetMentionedAgents:
         """No duplicate agents returned."""
         agents = get_mentioned_agents("@claude @claude @claude")
         assert agents == ["claude"]
+
+
+class TestHermesMention:
+    """Tests for hermes agent mention detection (AC-MP-01, AC-MP-02)."""
+
+    def test_hermes_extract_agent_name(self):
+        """AC-MP-01: extract_agent_name('@hermes help') returns 'hermes'."""
+        assert extract_agent_name("@hermes help") == "hermes"
+        assert extract_agent_name("@hermes can you hear me") == "hermes"
+        assert extract_agent_name("Hey @hermes, what's up?") == "hermes"
+
+    def test_hermes_is_mentioned(self):
+        """AC-MP-02: is_agent_mentioned works for hermes."""
+        assert is_agent_mentioned("@hermes help", "hermes") is True
+        assert is_agent_mentioned("hermes can you hear me", "hermes") is False  # No @
+        assert is_agent_mentioned("@HERMES please respond", "hermes") is True  # Case insensitive
+
+    def test_hermes_in_get_mentioned_agents(self):
+        """Hermes appears in get_mentioned_agents output."""
+        agents = get_mentioned_agents("@hermes and @claude")
+        assert "hermes" in agents
+        assert "claude" in agents
+
+    def test_hermes_parse_mentions(self):
+        """Hermes appears in parse_mentions output."""
+        mentions = parse_mentions("@hermes can you hear me")
+        assert len(mentions) == 1
+        assert mentions[0].agent_name == "hermes"
+        assert mentions[0].raw_text == "@hermes"

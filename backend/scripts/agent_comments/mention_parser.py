@@ -24,6 +24,7 @@ KNOWN_AGENTS = {
     "codex": "codex",
     "corey": "corey",
     "corey-coder": "corey-coder",
+    "hermes": "hermes",
 }
 
 # Regex pattern for @mentions
