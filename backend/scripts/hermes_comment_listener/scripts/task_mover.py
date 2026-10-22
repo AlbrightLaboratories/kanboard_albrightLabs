@@ -23,11 +23,14 @@ class TaskMover:
     """
 
     # Default column names (can be overridden per project)
+    # Based on actual Kanboard columns: Backlog, Ready, Work in progress, Done, Accepted
     DEFAULT_COLUMNS = {
         "backlog": "Backlog",
-        "in_progress": "In Progress",
-        "review": "Review",
+        "ready": "Ready",
+        "in_progress": "Work in progress",
+        "review": "Ready",  # Use Ready for validation/review
         "done": "Done",
+        "accepted": "Accepted",
     }
 
     def __init__(self, kanboard_client):

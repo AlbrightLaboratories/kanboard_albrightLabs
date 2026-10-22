@@ -26,7 +26,7 @@ spec:
             - name: KANBOARD_URL
               value: "http://kanboard.hr-project-tracking.svc.cluster.local/jsonrpc.php"
             - name: KANBOARD_USERNAME
-              value: "admin"
+              value: "albrightcda"
             - name: KANBOARD_API_TOKEN
               valueFrom:
                 secretKeyRef:
@@ -70,23 +70,5 @@ spec:
             periodSeconds: 60
             failureThreshold: 3
       restartPolicy: Always
----
-apiVersion: v1
-kind: Secret
-metadata:
-  name: kanboard-api-credentials
-  namespace: hr-project-tracking
-type: Opaque
-stringData:
-  # This will be replaced with actual API token
-  api-token: "REPLACE_WITH_KANBOARD_API_TOKEN"
----
-apiVersion: v1
-kind: Secret
-metadata:
-  name: hermes-api-credentials
-  namespace: hr-project-tracking
-type: Opaque
-stringData:
-  # This will be replaced with actual Hermes API key
-  api-key: "REPLACE_WITH_HERMES_API_KEY"
+# NOTE: Secrets (kanboard-secrets, hermes-api-credentials) are managed separately.
+# Do not include them in this file to prevent overwrites with placeholder values.
