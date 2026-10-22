@@ -19,6 +19,9 @@ from datetime import datetime, timezone
 import httpx
 
 from .comment_tracker import CommentTracker
+from .task_mover import TaskMover
+from .memory_client import MemoryClient
+from .completion_detector import CompletionDetector, TaskAction
 
 logger = logging.getLogger(__name__)
 
@@ -117,6 +120,30 @@ class KanboardClient:
         """Get a single task by ID."""
         return await self._call("getTask", task_id=task_id)
 
+    async def get_columns(self, project_id: int) -> List[Dict[str, Any]]:
+        """Get all columns for a project."""
+        result = await self._call("getColumns", project_id=project_id)
+        return result if result else []
+
+    async def move_task_position(
+        self,
+        task_id: int,
+        column_id: int,
+        position: int = 1,
+        project_id: int = 0,
+        swimlane_id: int = 0,
+    ) -> bool:
+        """Move a task to a different column/position."""
+        result = await self._call(
+            "moveTaskPosition",
+            task_id=task_id,
+            column_id=column_id,
+            position=position,
+            project_id=project_id,
+            swimlane_id=swimlane_id,
+        )
+        return bool(result)
+
 
 class CommentPoller:
     """
@@ -204,7 +231,15 @@ class CommentPoller:
 
     async def process_mention(self, comment: Comment) -> bool:
         """
-        Process a single @hermes mention.
+        Process a single @hermes mention with memory and task movement.
+
+        Workflow:
+        1. Recall previous thoughts from memory
+        2. Move to In Progress if starting work from Backlog
+        3. Call Hermes with context
+        4. Store new thought in memory
+        5. Detect completion signals and move to Validation (NOT Done)
+        6. Post response comment
 
         Args:
             comment: The comment with the mention
@@ -220,28 +255,68 @@ class CommentPoller:
             logger.debug(f"Comment {comment.id} already being processed")
             return False
 
+        task_id = int(comment.task_id)
+        memory = MemoryClient()
+        mover = TaskMover(self._client)
+        detector = CompletionDetector()
+
         try:
             logger.info(f"Processing @hermes mention in comment {comment.id}")
 
-            # Build prompt and call Hermes
-            messages = build_simple_prompt(comment.content)
+            # 1. Recall previous context from memory
+            previous_thoughts = await memory.recall_thoughts(task_id)
+            context = memory.format_context(previous_thoughts)
+
+            # 2. Check current column and move to In Progress if in Backlog
+            current_column = await mover.get_current_column(task_id)
+            if current_column and current_column.lower() == "backlog":
+                moved = await mover.move_to_in_progress(task_id)
+                if moved:
+                    logger.info(f"Moved task {task_id} to In Progress")
+                    await memory.store_action(
+                        task_id, "Column Move", "Moved to In Progress"
+                    )
+
+            # 3. Build prompt with memory context and call Hermes
+            prompt_content = comment.content
+            if context:
+                prompt_content = f"{context}\n\n## Current Request\n\n{comment.content}"
+
+            messages = build_simple_prompt(prompt_content)
             result = await complete(messages)
 
             if result.failure_reason:
                 logger.error(f"Hermes failed: {result.failure_reason}")
-                # Still mark as processed to avoid retry loops
                 self._tracker.mark_processed(comment.id)
                 return False
 
-            # Format and post response
+            # 4. Store Hermes response in memory
+            await memory.store_thought(
+                task_id,
+                result.reply,
+                phase="response",
+                metadata={"comment_id": comment.id}
+            )
+
+            # 5. Detect completion signals and move to Validation (NOT Done)
+            detection = detector.detect(result.reply)
+            if detection.action == TaskAction.SUBMIT_FOR_REVIEW:
+                moved = await mover.move_to_review(task_id)
+                if moved:
+                    logger.info(f"Moved task {task_id} to Review/Validation")
+                    await memory.store_action(
+                        task_id, "Column Move", "Submitted for validation"
+                    )
+
+            # 6. Format and post response
             response_content = format_agent_response(result.reply, "Hermes")
-            comment_id = await self._client.create_comment(
-                task_id=int(comment.task_id),
+            new_comment_id = await self._client.create_comment(
+                task_id=task_id,
                 content=response_content,
             )
 
-            if comment_id:
-                logger.info(f"Posted Hermes response as comment {comment_id}")
+            if new_comment_id:
+                logger.info(f"Posted Hermes response as comment {new_comment_id}")
                 self._tracker.mark_processed(comment.id)
                 return True
             else:
@@ -250,7 +325,6 @@ class CommentPoller:
 
         except Exception as e:
             logger.error(f"Error processing mention: {e}")
-            # Mark as processed to avoid infinite retry
             self._tracker.mark_processed(comment.id)
             return False
 
