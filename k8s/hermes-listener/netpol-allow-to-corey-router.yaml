@@ -1,0 +1,21 @@
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: allow-hr-project-tracking-to-corey-router
+  namespace: corey-coder
+  labels:
+    app.kubernetes.io/part-of: kanboard
+spec:
+  podSelector:
+    matchLabels:
+      app: corey-router
+  policyTypes:
+    - Ingress
+  ingress:
+    - from:
+        - namespaceSelector:
+            matchLabels:
+              kubernetes.io/metadata.name: hr-project-tracking
+      ports:
+        - protocol: TCP
+          port: 8081

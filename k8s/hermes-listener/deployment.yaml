@@ -32,6 +32,10 @@ spec:
                 secretKeyRef:
                   name: kanboard-secrets
                   key: api-token
+            # Corey-router for intelligent model routing (preferred)
+            - name: COREY_ROUTER_URL
+              value: "http://corey-router.corey-coder.svc.cluster.local:8081"
+            # Direct Hermes URL (fallback for tool-heavy requests)
             - name: HERMES_URL
               value: "http://172.100.10.21:8642"
             - name: HERMES_API_KEY
@@ -40,6 +44,9 @@ spec:
                   name: hermes-api-credentials
                   key: api-key
             - name: HERMES_ENABLED
+              value: "1"
+            # Use corey-router for intelligent model selection (1=enabled)
+            - name: USE_COREY_ROUTER
               value: "1"
             - name: POLL_INTERVAL_SECONDS
               value: "30"  # Reduced from 5s to prevent SQLite lock contention
