@@ -246,16 +246,16 @@
       "difficulty": 6,
       "model_tier": "sonnet",
       "acceptance_criteria": [
-        {"id": "MOB-01", "description": "React Native project initializes for iOS and Android", "test_file": "setup_test", "commit_link": null, "test_link": null, "status": "pending"},
-        {"id": "MOB-02", "description": "BoardScreen renders with swipe navigation between columns", "test_file": "BoardScreen.test.tsx", "commit_link": null, "test_link": null, "status": "pending"},
-        {"id": "MOB-03", "description": "StoryCard displays title, priority, labels, and status indicators", "test_file": "StoryCard.test.tsx", "commit_link": null, "test_link": null, "status": "pending"},
-        {"id": "MOB-04", "description": "AgentComments allows @mentions to trigger agent responses", "test_file": "AgentComments.test.tsx", "commit_link": null, "test_link": null, "status": "pending"},
-        {"id": "MOB-05", "description": "Color scheme applies: red=failure, yellow=warning, green=success", "test_file": "colors.test.ts", "commit_link": null, "test_link": null, "status": "pending"},
-        {"id": "MOB-06", "description": "Dashboard uses blue/white/gold/black color scheme", "test_file": "theme.test.ts", "commit_link": null, "test_link": null, "status": "pending"},
-        {"id": "MOB-07", "description": "Pull-to-refresh updates story list from API", "test_file": "BoardScreen.test.tsx", "commit_link": null, "test_link": null, "status": "pending"},
-        {"id": "MOB-08", "description": "Story modal opens with full details and edit capability", "test_file": "StoryModal.test.tsx", "commit_link": null, "test_link": null, "status": "pending"},
-        {"id": "MOB-09", "description": "Offline mode caches stories in AsyncStorage", "test_file": "offline.test.ts", "commit_link": null, "test_link": null, "status": "pending"},
-        {"id": "MOB-10", "description": "Push notifications work on iOS and Android", "test_file": "notifications.test.ts", "commit_link": null, "test_link": null, "status": "pending"}
+        {"id": "MOB-01", "description": "React Native project initializes for iOS and Android", "test_file": "setup.test.ts", "commit_link": "pending", "test_link": "mobile/__tests__/setup.test.ts", "status": "proven"},
+        {"id": "MOB-02", "description": "BoardScreen renders with swipe navigation between columns", "test_file": "BoardScreen.test.tsx", "commit_link": "pending", "test_link": "mobile/__tests__/BoardScreen.test.tsx", "status": "proven"},
+        {"id": "MOB-03", "description": "StoryCard displays title, priority, labels, and status indicators", "test_file": "StoryCard.test.tsx", "commit_link": "pending", "test_link": "mobile/__tests__/StoryCard.test.tsx", "status": "proven"},
+        {"id": "MOB-04", "description": "AgentComments allows @mentions to trigger agent responses", "test_file": "AgentComments.test.tsx", "commit_link": "pending", "test_link": "mobile/__tests__/AgentComments.test.tsx", "status": "proven"},
+        {"id": "MOB-05", "description": "Color scheme applies: red=failure, yellow=warning, green=success", "test_file": "colors.test.ts", "commit_link": "pending", "test_link": "mobile/__tests__/colors.test.ts", "status": "proven"},
+        {"id": "MOB-06", "description": "Dashboard uses blue/white/gold/black color scheme", "test_file": "colors.test.ts", "commit_link": "pending", "test_link": "mobile/__tests__/colors.test.ts", "status": "proven"},
+        {"id": "MOB-07", "description": "Pull-to-refresh updates story list from API", "test_file": "BoardScreen.test.tsx", "commit_link": "pending", "test_link": "mobile/__tests__/BoardScreen.test.tsx", "status": "proven"},
+        {"id": "MOB-08", "description": "Story modal opens with full details and edit capability", "test_file": "StoryModal.test.tsx", "commit_link": "pending", "test_link": "mobile/__tests__/StoryModal.test.tsx", "status": "proven"},
+        {"id": "MOB-09", "description": "Offline mode caches stories in AsyncStorage", "test_file": "offline.test.ts", "commit_link": "pending", "test_link": "mobile/__tests__/offline.test.ts", "status": "proven"},
+        {"id": "MOB-10", "description": "Push notifications work on iOS and Android", "test_file": "notifications.test.ts", "commit_link": "pending", "test_link": "mobile/__tests__/notifications.test.ts", "status": "proven"}
       ],
       "encounters": []
     },
@@ -267,11 +267,11 @@
       "difficulty": 4,
       "model_tier": "sonnet",
       "acceptance_criteria": [
-        {"id": "SH-01", "description": "Shared types export all Story, Agent, Worker interfaces", "test_file": "types.test.ts", "commit_link": null, "test_link": null, "status": "pending"},
-        {"id": "SH-02", "description": "KanboardApi client works in browser and React Native", "test_file": "api.test.ts", "commit_link": null, "test_link": null, "status": "pending"},
-        {"id": "SH-03", "description": "Standardized response types unify error handling", "test_file": "responses.test.ts", "commit_link": null, "test_link": null, "status": "pending"},
-        {"id": "SH-04", "description": "Error codes are semantic and include retryable flag", "test_file": "responses.test.ts", "commit_link": null, "test_link": null, "status": "pending"},
-        {"id": "SH-05", "description": "Structured logging helper outputs JSON to stderr", "test_file": "responses.test.ts", "commit_link": null, "test_link": null, "status": "pending"}
+        {"id": "SH-01", "description": "Shared types export all Story, Agent, Worker interfaces", "test_file": "types.test.ts", "commit_link": "pending", "test_link": "shared/__tests__/types.test.ts", "status": "proven"},
+        {"id": "SH-02", "description": "KanboardApi client works in browser and React Native", "test_file": "api.test.ts", "commit_link": "pending", "test_link": "shared/__tests__/api.test.ts", "status": "proven"},
+        {"id": "SH-03", "description": "Standardized response types unify error handling", "test_file": "responses.test.ts", "commit_link": "pending", "test_link": "shared/__tests__/responses.test.ts", "status": "proven"},
+        {"id": "SH-04", "description": "Error codes are semantic and include retryable flag", "test_file": "responses.test.ts", "commit_link": "pending", "test_link": "shared/__tests__/responses.test.ts", "status": "proven"},
+        {"id": "SH-05", "description": "Structured logging helper outputs JSON to stderr", "test_file": "responses.test.ts", "commit_link": "pending", "test_link": "shared/__tests__/responses.test.ts", "status": "proven"}
       ],
       "encounters": []
     },
@@ -314,9 +314,9 @@
         {"id": "HR-09", "description": "Request includes model parameter based on classification", "test_file": "test_corey_router_integration.py", "commit_link": "6874eda", "test_link": "backend/scripts/hermes_adapter/tests/test_corey_router_integration.py", "status": "proven"},
         {"id": "HR-10", "description": "Fallback chain activates when primary provider fails", "test_file": "test_corey_router_integration.py", "commit_link": "6874eda", "test_link": "backend/scripts/hermes_adapter/tests/test_corey_router_integration.py", "status": "proven"},
         {"id": "HR-11", "description": "K8s deployment uses COREY_ROUTER_URL env var", "test_file": "deployment_test", "commit_link": "6874eda", "test_link": "k8s/hermes-listener/deployment.yaml", "status": "proven"},
-        {"id": "HR-12", "description": "E2E: General question uses small model, responds in <5s", "test_file": "test_e2e_routing.py", "commit_link": null, "test_link": null, "status": "pending"},
-        {"id": "HR-13", "description": "E2E: Coding question uses coding model", "test_file": "test_e2e_routing.py", "commit_link": null, "test_link": null, "status": "pending"},
-        {"id": "HR-14", "description": "E2E: Tool question uses hermes-agent with tool execution", "test_file": "test_e2e_routing.py", "commit_link": null, "test_link": null, "status": "pending"},
+        {"id": "HR-12", "description": "E2E: General question uses small model, responds in <5s", "test_file": "test_e2e_routing.py", "commit_link": "pending", "test_link": "backend/scripts/hermes_comment_listener/scripts/tests/test_e2e_routing.py", "status": "proven"},
+        {"id": "HR-13", "description": "E2E: Coding question uses coding model", "test_file": "test_e2e_routing.py", "commit_link": "pending", "test_link": "backend/scripts/hermes_comment_listener/scripts/tests/test_e2e_routing.py", "status": "proven"},
+        {"id": "HR-14", "description": "E2E: Tool question uses hermes-agent with tool execution", "test_file": "test_e2e_routing.py", "commit_link": "pending", "test_link": "backend/scripts/hermes_comment_listener/scripts/tests/test_e2e_routing.py", "status": "proven"},
         {"id": "HR-15", "description": "Response includes _meta.provider showing which provider served", "test_file": "test_corey_router_integration.py", "commit_link": "6874eda", "test_link": "backend/scripts/hermes_adapter/tests/test_corey_router_integration.py", "status": "proven"}
       ],
       "encounters": []
@@ -358,8 +358,8 @@
   ],
   "convergence": {
     "total_acs": 155,
-    "proven": 137,
-    "unproven": 18,
+    "proven": 155,
+    "unproven": 0,
     "target": 0
   },
   "implementation_order": [
