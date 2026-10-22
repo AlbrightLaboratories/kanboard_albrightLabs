@@ -293,12 +293,73 @@
         {"id": "AIC-08", "description": "WebSocket broadcasts agent responses in real-time", "test_file": "test_websocket_broadcast.py", "commit_link": "pending", "test_link": "backend/scripts/agent_comments/tests/test_websocket_broadcast.py", "status": "proven"}
       ],
       "encounters": []
+    },
+    {
+      "name": "hermes_router",
+      "path": "backend/scripts/hermes_comment_listener/scripts/",
+      "reusable": true,
+      "testable_independently": true,
+      "difficulty": 5,
+      "model_tier": "sonnet",
+      "description": "Route Hermes requests through corey-router with intelligent question classification",
+      "acceptance_criteria": [
+        {"id": "HR-01", "description": "QuestionClassifier detects coding questions (code, function, debug, implement, fix, error, test keywords)", "test_file": "test_question_classifier.py", "commit_link": "6874eda", "test_link": "backend/scripts/hermes_comment_listener/scripts/tests/test_question_classifier.py", "status": "proven"},
+        {"id": "HR-02", "description": "QuestionClassifier detects general questions (greetings, explanations, summaries)", "test_file": "test_question_classifier.py", "commit_link": "6874eda", "test_link": "backend/scripts/hermes_comment_listener/scripts/tests/test_question_classifier.py", "status": "proven"},
+        {"id": "HR-03", "description": "QuestionClassifier detects tool-requiring questions (run, execute, clone, deploy, kubectl, git)", "test_file": "test_question_classifier.py", "commit_link": "6874eda", "test_link": "backend/scripts/hermes_comment_listener/scripts/tests/test_question_classifier.py", "status": "proven"},
+        {"id": "HR-04", "description": "Classification returns enum: GENERAL | CODING | TOOL_REQUIRED", "test_file": "test_question_classifier.py", "commit_link": "6874eda", "test_link": "backend/scripts/hermes_comment_listener/scripts/tests/test_question_classifier.py", "status": "proven"},
+        {"id": "HR-05", "description": "ModelSelector maps GENERAL -> qwen3:7b", "test_file": "test_model_selector.py", "commit_link": "6874eda", "test_link": "backend/scripts/hermes_comment_listener/scripts/tests/test_model_selector.py", "status": "proven"},
+        {"id": "HR-06", "description": "ModelSelector maps CODING -> qwen3-coder:30b", "test_file": "test_model_selector.py", "commit_link": "6874eda", "test_link": "backend/scripts/hermes_comment_listener/scripts/tests/test_model_selector.py", "status": "proven"},
+        {"id": "HR-07", "description": "ModelSelector maps TOOL_REQUIRED -> hermes-agent", "test_file": "test_model_selector.py", "commit_link": "6874eda", "test_link": "backend/scripts/hermes_comment_listener/scripts/tests/test_model_selector.py", "status": "proven"},
+        {"id": "HR-08", "description": "hermes_client routes through corey-router URL", "test_file": "test_corey_router_integration.py", "commit_link": "6874eda", "test_link": "backend/scripts/hermes_adapter/tests/test_corey_router_integration.py", "status": "proven"},
+        {"id": "HR-09", "description": "Request includes model parameter based on classification", "test_file": "test_corey_router_integration.py", "commit_link": "6874eda", "test_link": "backend/scripts/hermes_adapter/tests/test_corey_router_integration.py", "status": "proven"},
+        {"id": "HR-10", "description": "Fallback chain activates when primary provider fails", "test_file": "test_corey_router_integration.py", "commit_link": "6874eda", "test_link": "backend/scripts/hermes_adapter/tests/test_corey_router_integration.py", "status": "proven"},
+        {"id": "HR-11", "description": "K8s deployment uses COREY_ROUTER_URL env var", "test_file": "deployment_test", "commit_link": "6874eda", "test_link": "k8s/hermes-listener/deployment.yaml", "status": "proven"},
+        {"id": "HR-12", "description": "E2E: General question uses small model, responds in <5s", "test_file": "test_e2e_routing.py", "commit_link": null, "test_link": null, "status": "pending"},
+        {"id": "HR-13", "description": "E2E: Coding question uses coding model", "test_file": "test_e2e_routing.py", "commit_link": null, "test_link": null, "status": "pending"},
+        {"id": "HR-14", "description": "E2E: Tool question uses hermes-agent with tool execution", "test_file": "test_e2e_routing.py", "commit_link": null, "test_link": null, "status": "pending"},
+        {"id": "HR-15", "description": "Response includes _meta.provider showing which provider served", "test_file": "test_corey_router_integration.py", "commit_link": "6874eda", "test_link": "backend/scripts/hermes_adapter/tests/test_corey_router_integration.py", "status": "proven"}
+      ],
+      "encounters": []
+    },
+    {
+      "name": "hermes_capabilities",
+      "path": "backend/scripts/hermes_capabilities/",
+      "reusable": true,
+      "testable_independently": true,
+      "difficulty": 8,
+      "model_tier": "opus",
+      "description": "Extend Hermes with corey-toolbox MCPs and Claude skill pipeline for full project/story automation",
+      "acceptance_criteria": [
+        {"id": "HC-01", "description": "ToolboxBridge connects Hermes to mcp-hub for dynamic tool discovery", "test_file": "test_toolbox_bridge.py", "commit_link": null, "test_link": null, "status": "pending"},
+        {"id": "HC-02", "description": "mcp-kubernetes-platform-engineer accessible via Hermes for cluster RCA/self-healing", "test_file": "test_k8s_platform_mcp.py", "commit_link": null, "test_link": null, "status": "pending"},
+        {"id": "HC-03", "description": "mcp-sequential-thinking accessible for chain-of-thought reasoning", "test_file": "test_sequential_thinking.py", "commit_link": null, "test_link": null, "status": "pending"},
+        {"id": "HC-04", "description": "mcp-rag accessible for semantic search across codebase", "test_file": "test_rag_mcp.py", "commit_link": null, "test_link": null, "status": "pending"},
+        {"id": "HC-05", "description": "tdd-mcp accessible for TDD workflow (red-green-refactor)", "test_file": "test_tdd_mcp.py", "commit_link": null, "test_link": null, "status": "pending"},
+        {"id": "HC-06", "description": "mcp-project-indexer accessible for module dependency mapping", "test_file": "test_project_indexer.py", "commit_link": null, "test_link": null, "status": "pending"},
+        {"id": "HC-07", "description": "mcp-merge-resolver accessible for handling merge conflicts", "test_file": "test_merge_resolver.py", "commit_link": null, "test_link": null, "status": "pending"},
+        {"id": "HC-08", "description": "mcp-refactor accessible for safe code refactoring", "test_file": "test_refactor_mcp.py", "commit_link": null, "test_link": null, "status": "pending"},
+        {"id": "HC-09", "description": "Tool discovery: Hermes queries mcp-hub for available tools by capability", "test_file": "test_tool_discovery.py", "commit_link": null, "test_link": null, "status": "pending"},
+        {"id": "HC-10", "description": "Tool invocation: Hermes calls MCP tools via HTTP with proper auth", "test_file": "test_tool_invocation.py", "commit_link": null, "test_link": null, "status": "pending"},
+        {"id": "HC-11", "description": "SkillInvoker triggers /plan skill with story context", "test_file": "test_skill_plan.py", "commit_link": null, "test_link": null, "status": "pending"},
+        {"id": "HC-12", "description": "SkillInvoker triggers /design-a-prd skill with modules + ACs", "test_file": "test_skill_prd.py", "commit_link": null, "test_link": null, "status": "pending"},
+        {"id": "HC-13", "description": "SkillInvoker triggers /tdd skill with failing-test-first approach", "test_file": "test_skill_tdd.py", "commit_link": null, "test_link": null, "status": "pending"},
+        {"id": "HC-14", "description": "SkillInvoker triggers /prove-it skill with test coverage check", "test_file": "test_skill_prove_it.py", "commit_link": null, "test_link": null, "status": "pending"},
+        {"id": "HC-15", "description": "SkillInvoker triggers /release-it skill with TOC traceability", "test_file": "test_skill_release_it.py", "commit_link": null, "test_link": null, "status": "pending"},
+        {"id": "HC-16", "description": "Skill pipeline orchestrates plan→prd→tdd→prove-it→release-it in sequence", "test_file": "test_skill_pipeline.py", "commit_link": null, "test_link": null, "status": "pending"},
+        {"id": "HC-17", "description": "Skill state persisted in hermes-memory for recovery after restart", "test_file": "test_skill_state.py", "commit_link": null, "test_link": null, "status": "pending"},
+        {"id": "HC-18", "description": "Skill failure triggers rework loop with failure context", "test_file": "test_skill_rework.py", "commit_link": null, "test_link": null, "status": "pending"},
+        {"id": "HC-19", "description": "StoryOrchestrator claims story, runs skill pipeline, moves to Done", "test_file": "test_story_orchestrator.py", "commit_link": null, "test_link": null, "status": "pending"},
+        {"id": "HC-20", "description": "E2E: @hermes claim and work on story runs full skill pipeline", "test_file": "test_e2e_story_work.py", "commit_link": null, "test_link": null, "status": "pending"},
+        {"id": "HC-21", "description": "E2E: Story moved from Backlog→In Progress→Validation→Done autonomously", "test_file": "test_e2e_story_lifecycle.py", "commit_link": null, "test_link": null, "status": "pending"},
+        {"id": "HC-22", "description": "Progress updates posted as comments at each skill stage", "test_file": "test_progress_comments.py", "commit_link": null, "test_link": null, "status": "pending"}
+      ],
+      "encounters": []
     }
   ],
   "convergence": {
-    "total_acs": 118,
-    "proven": 103,
-    "unproven": 15,
+    "total_acs": 155,
+    "proven": 115,
+    "unproven": 40,
     "target": 0
   },
   "implementation_order": [
@@ -314,6 +375,8 @@
     "github-worker",
     "shared",
     "mobile",
-    "agent-in-comments"
+    "agent-in-comments",
+    "hermes_router",
+    "hermes_capabilities"
   ]
 }
