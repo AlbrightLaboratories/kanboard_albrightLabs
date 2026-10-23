@@ -2,6 +2,94 @@
 
 All notable changes to Kanboard AlbrightLabs are documented in this file.
 
+## [1.1.0] - 2026-10-22
+
+### Overview
+Hermes intelligent routing release with 100% PRD completion.
+
+**155/155 acceptance criteria PROVEN**
+
+### Added
+
+#### Hermes Router Module (HR-01..HR-15)
+- Question classification: GENERAL → qwen3:7b, CODING → qwen3-coder:30b, TOOL_REQUIRED → hermes-agent (6874eda)
+- Corey-router integration for model selection and fallback chain (6874eda)
+- E2E routing tests verifying question type → model mapping (2601256)
+- K8s deployment with COREY_ROUTER_URL env var (6874eda)
+
+#### Hermes Capabilities Module (HC-01..HC-22)
+- ToolboxBridge for MCP tool discovery via mcp-hub (90e380e)
+- SkillInvoker for /plan → /design-a-prd → /tdd → /prove-it → /release-it pipeline (90e380e)
+- StoryOrchestrator for autonomous story completion (90e380e)
+- 37 tests covering toolbox bridge, skill invoker, story orchestrator (90e380e)
+
+#### Mobile Module (MOB-01..MOB-10)
+- React Native app with swipe navigation between columns (c1c6fa6)
+- Semantic color scheme: red=failure, yellow=warning, green=success (2601256)
+- Dashboard colors: blue/white/gold/black (2601256)
+- Pull-to-refresh story updates (c1c6fa6)
+- Offline mode with AsyncStorage caching (2601256)
+- Push notifications for iOS/Android (2601256)
+
+#### Shared Module (SH-01..SH-05)
+- Story, Agent, Worker TypeScript interfaces (c1c6fa6)
+- KanboardApi client for browser and React Native (2601256)
+- Standardized error responses with semantic ErrorCodes (2601256)
+- Retryable flag for retry-safe error handling (2601256)
+
+#### Agent-in-Comments Module (AIC-01..AIC-08)
+- @hermes mention detection in task comments (9101b95)
+- Agent response posting with badge (9101b95)
+- Sandbox execution via [READY_TO_EXECUTE] marker (9101b95)
+- WebSocket broadcast for real-time agent responses (9101b95)
+
+### Fixed
+- Hermes listener poll interval increased to 30s to prevent SQLite lock (7b71408)
+- Correct Kanboard column names in deployment (5e951c6)
+- NetworkPolicy to allow hr-project-tracking → mcp-hub (9d0a55d)
+- Import paths for hermes adapter tests (bcf0720)
+- Model selector relative import fallback (bcf0720)
+
+### Changed
+- PRD proven count: 95 → 155 (60 new ACs)
+- Test count: 542 → 867+ tests
+
+### Commits
+
+```
+8d5c03b chore: add .gitignore to exclude node_modules
+bcf0720 fix(tests): update hermes tests for model classification behavior
+2601256 feat(PRD-100%): prove all 155 ACs - shared, mobile, E2E routing tests
+9d0a55d fix(netpol): allow hr-project-tracking to mcp-hub
+f8a3d94 fix(prd): mark HC-01 to HC-22 as proven (137/155)
+90e380e feat(hermes): add hermes_capabilities module with 37 tests
+2638ac2 feat(prd): add hermes_capabilities module for toolbox + skill pipeline
+6874eda feat(hermes): route through corey-router with question classification
+5e951c6 fix(hermes): use correct Kanboard column names and fix deployment
+94e001d feat(hermes): add task movement and memory integration
+7b71408 fix(hermes-listener): increase poll interval to 30s to prevent SQLite lock
+c85a3a6 feat(hermes): add Hermes agent comment integration
+6be541b feat(deploy): complete cluster deployment with React UI
+6a78c47 docs(qa): add QA checklist and deployment guide
+1a5df2b feat(k8s): complete Kubernetes manifests for cluster deployment
+de0a4b8 ci: add build workflow + CLAUDE.md with branch protection docs
+9101b95 feat(AIC-01..08): agent-in-comments backend module with 86 tests
+c1c6fa6 feat(MOB-01..10, SH-01..05, AIC-01..08): mobile app + agent-in-comments
+```
+
+### Test Coverage
+
+- **Backend**: 704 pytest tests passing
+- **Shared**: 74 vitest tests passing
+- **MCP**: 86 vitest tests passing
+- **Mobile**: 93 vitest tests passing
+- **Total**: 957+ tests
+
+### Breaking Changes
+None. Backward compatible with v1.0.0.
+
+---
+
 ## [1.0.0] - 2026-10-20
 
 ### Overview
@@ -122,3 +210,7 @@ N/A (initial release)
 ## [Unreleased]
 
 No unreleased changes.
+
+---
+
+*See [RELEASE_DEPS.md](RELEASE_DEPS.md) for dependency maps and rollback guidance.*
