@@ -5,7 +5,7 @@
  * Implements UI-09.
  */
 
-import React from 'react';
+// import React from 'react';
 import { useDependencyGraph } from '../../hooks/useKanboard';
 
 export interface DependencyGraphProps {

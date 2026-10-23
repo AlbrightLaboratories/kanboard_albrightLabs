@@ -20,6 +20,7 @@ describe('ValidationResult - UI-07', () => {
   it('renders validation result', () => {
     vi.mocked(hooks.useValidation).mockReturnValue({
       result: {
+        story_id: 123,
         status: 'passed',
         timestamp: Date.now(),
         failures: []
@@ -35,6 +36,7 @@ describe('ValidationResult - UI-07', () => {
   it('shows passed status', () => {
     vi.mocked(hooks.useValidation).mockReturnValue({
       result: {
+        story_id: 123,
         status: 'passed',
         timestamp: Date.now(),
         failures: []
@@ -51,6 +53,7 @@ describe('ValidationResult - UI-07', () => {
   it('shows failed status', () => {
     vi.mocked(hooks.useValidation).mockReturnValue({
       result: {
+        story_id: 123,
         status: 'failed',
         timestamp: Date.now(),
         failures: ['Test 1 failed']
@@ -67,6 +70,7 @@ describe('ValidationResult - UI-07', () => {
   it('shows pass icon for passed validation', () => {
     vi.mocked(hooks.useValidation).mockReturnValue({
       result: {
+        story_id: 123,
         status: 'passed',
         timestamp: Date.now(),
         failures: []
@@ -82,6 +86,7 @@ describe('ValidationResult - UI-07', () => {
   it('shows fail icon for failed validation', () => {
     vi.mocked(hooks.useValidation).mockReturnValue({
       result: {
+        story_id: 123,
         status: 'failed',
         timestamp: Date.now(),
         failures: ['Test failed']
@@ -97,6 +102,7 @@ describe('ValidationResult - UI-07', () => {
   it('shows failure log when failed', () => {
     vi.mocked(hooks.useValidation).mockReturnValue({
       result: {
+        story_id: 123,
         status: 'failed',
         timestamp: Date.now(),
         failures: ['test_login failed', 'coverage below 80%']
@@ -114,6 +120,7 @@ describe('ValidationResult - UI-07', () => {
   it('shows failure count', () => {
     vi.mocked(hooks.useValidation).mockReturnValue({
       result: {
+        story_id: 123,
         status: 'failed',
         timestamp: Date.now(),
         failures: ['error 1', 'error 2', 'error 3']
@@ -129,6 +136,7 @@ describe('ValidationResult - UI-07', () => {
   it('hides failure log when passed', () => {
     vi.mocked(hooks.useValidation).mockReturnValue({
       result: {
+        story_id: 123,
         status: 'passed',
         timestamp: Date.now(),
         failures: []
@@ -145,6 +153,7 @@ describe('ValidationResult - UI-07', () => {
     const timestamp = Date.now();
     vi.mocked(hooks.useValidation).mockReturnValue({
       result: {
+        story_id: 123,
         status: 'passed',
         timestamp,
         failures: []

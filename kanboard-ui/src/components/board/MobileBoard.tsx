@@ -5,7 +5,7 @@
  * Implements UI-10.
  */
 
-import React, { useState, useRef, useEffect } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { useStories, useColumns } from '../../hooks/useKanboard';
 import { Card } from './Card';
 import { Story } from '../../api/kanboard';

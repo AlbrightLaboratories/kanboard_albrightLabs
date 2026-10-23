@@ -11,7 +11,10 @@ from __future__ import annotations
 from dataclasses import dataclass
 from typing import Dict, List, Optional
 
-from .question_classifier import QuestionType
+try:
+    from .question_classifier import QuestionType
+except ImportError:
+    from question_classifier import QuestionType
 
 
 @dataclass

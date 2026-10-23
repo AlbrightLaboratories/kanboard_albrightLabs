@@ -4,7 +4,7 @@
  * Droppable column for stories.
  */
 
-import React from 'react';
+// import React from 'react';
 import { useDroppable } from '@dnd-kit/core';
 import { Card } from './Card';
 import { Story, Column as ColumnType } from '../../api/kanboard';

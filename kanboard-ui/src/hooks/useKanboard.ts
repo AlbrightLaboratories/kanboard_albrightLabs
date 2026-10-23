@@ -3,7 +3,32 @@
  */
 
 import { useState, useEffect, useCallback } from 'react';
-import { kanboardAPI, Story, Column, Agent, Worker, ValidationResult, SkillProgress } from '../api/kanboard';
+import { kanboardAPI, Story, Column, Project, Agent, Worker, ValidationResult, SkillProgress } from '../api/kanboard';
+
+export function useProjects() {
+  const [projects, setProjects] = useState<Project[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  const refresh = useCallback(async () => {
+    try {
+      setLoading(true);
+      const data = await kanboardAPI.getProjects();
+      setProjects(data);
+      setError(null);
+    } catch (e) {
+      setError(e instanceof Error ? e.message : 'Failed to load projects');
+    } finally {
+      setLoading(false);
+    }
+  }, []);
+
+  useEffect(() => {
+    refresh();
+  }, [refresh]);
+
+  return { projects, loading, error, refresh };
+}
 
 export function useStories(projectId: number) {
   const [stories, setStories] = useState<Story[]>([]);
@@ -38,32 +63,50 @@ export function useStories(projectId: number) {
 export function useColumns(projectId: number) {
   const [columns, setColumns] = useState<Column[]>([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
-  useEffect(() => {
-    kanboardAPI.getColumns(projectId)
-      .then(setColumns)
-      .finally(() => setLoading(false));
+  const refresh = useCallback(async () => {
+    try {
+      setLoading(true);
+      const data = await kanboardAPI.getColumns(projectId);
+      setColumns(data);
+      setError(null);
+    } catch (e) {
+      setError(e instanceof Error ? e.message : 'Failed to load columns');
+    } finally {
+      setLoading(false);
+    }
   }, [projectId]);
 
-  return { columns, loading };
+  useEffect(() => {
+    refresh();
+  }, [refresh]);
+
+  return { columns, loading, error, refresh };
 }
 
 export function useAgents() {
   const [agents, setAgents] = useState<Agent[]>([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
   const refresh = useCallback(async () => {
-    const data = await kanboardAPI.getAgents();
-    setAgents(data);
+    try {
+      const data = await kanboardAPI.getAgents();
+      setAgents(data);
+      setError(null);
+    } catch (e) {
+      setError(e instanceof Error ? e.message : 'Failed to load agents');
+    }
   }, []);
 
   useEffect(() => {
-    refresh();
+    refresh().finally(() => setLoading(false));
     const interval = setInterval(refresh, 30000); // Refresh every 30s
     return () => clearInterval(interval);
   }, [refresh]);
 
-  return { agents, loading, refresh };
+  return { agents, loading, error, refresh };
 }
 
 export function useWorkers() {

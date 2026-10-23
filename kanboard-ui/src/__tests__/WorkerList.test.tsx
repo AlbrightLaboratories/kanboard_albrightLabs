@@ -167,10 +167,10 @@ describe('WorkerList - UI-11', () => {
     });
 
     render(<WorkerList />);
-    expect(screen.getByText(/Failed to fetch workers/)).toBeInTheDocument();
+    expect(screen.getByText(/Backend not available/)).toBeInTheDocument();
   });
 
-  it('shows retry button on error', () => {
+  it('shows refresh button on error', () => {
     vi.mocked(hooks.useWorkers).mockReturnValue({
       workers: [],
       loading: false,
@@ -180,7 +180,7 @@ describe('WorkerList - UI-11', () => {
     });
 
     render(<WorkerList />);
-    fireEvent.click(screen.getByText('Retry'));
+    fireEvent.click(screen.getByText('↻'));
     expect(mockRefresh).toHaveBeenCalled();
   });
 

@@ -5,7 +5,7 @@
  * Implements UI-11.
  */
 
-import React from 'react';
+// import React from 'react';
 import { useWorkers } from '../../hooks/useKanboard';
 import { Worker } from '../../api/kanboard';
 
@@ -66,9 +66,15 @@ export function WorkerList({ onWorkerClick }: WorkerListProps) {
 
   if (error) {
     return (
-      <div className="worker-list-error">
-        Error: {error}
-        <button onClick={refresh}>Retry</button>
+      <div className="worker-list" data-testid="worker-list">
+        <div className="worker-list-header">
+          <h3>LLM Workers</h3>
+          <button onClick={refresh} className="refresh-button">↻</button>
+        </div>
+        <div className="worker-status-notice" style={{ padding: '2rem', textAlign: 'center', color: '#6b7280' }}>
+          <p style={{ marginBottom: '1rem' }}>Backend not available</p>
+          <p style={{ fontSize: '0.875rem' }}>The Worker Registry API is not deployed yet. Workers will appear here once the backend is running.</p>
+        </div>
       </div>
     );
   }

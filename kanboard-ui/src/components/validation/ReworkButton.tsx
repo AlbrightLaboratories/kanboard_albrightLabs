@@ -5,7 +5,7 @@
  * Implements UI-08.
  */
 
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { useValidation } from '../../hooks/useKanboard';
 
 export interface ReworkButtonProps {

@@ -5,7 +5,7 @@
  * Implements UI-03.
  */
 
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { Story, kanboardAPI } from '../../api/kanboard';
 
 export interface StoryModalProps {

@@ -5,7 +5,7 @@
  * Implements UI-06.
  */
 
-import React from 'react';
+// import React from 'react';
 import { useAgents } from '../../hooks/useKanboard';
 import { Agent } from '../../api/kanboard';
 
@@ -53,10 +53,25 @@ function AgentCard({ agent }: { agent: Agent }) {
 }
 
 export function AgentStatus({ className }: AgentStatusProps) {
-  const { agents, loading, refresh } = useAgents();
+  const { agents, loading, error, refresh } = useAgents();
 
   if (loading) {
     return <div className="agent-status-loading">Loading agents...</div>;
+  }
+
+  if (error) {
+    return (
+      <div className={`agent-status ${className || ''}`} data-testid="agent-status">
+        <div className="agent-status-header">
+          <h3>AI Agents</h3>
+          <button onClick={refresh} className="refresh-button">↻</button>
+        </div>
+        <div className="agent-status-notice" style={{ padding: '2rem', textAlign: 'center', color: '#6b7280' }}>
+          <p style={{ marginBottom: '1rem' }}>Backend not available</p>
+          <p style={{ fontSize: '0.875rem' }}>The Maestro API is not deployed yet. Agents will appear here once the backend is running.</p>
+        </div>
+      </div>
+    );
   }
 
   const activeAgents = agents.filter(a => a.status !== 'idle');

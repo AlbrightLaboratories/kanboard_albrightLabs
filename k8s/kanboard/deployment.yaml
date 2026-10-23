@@ -11,12 +11,10 @@ spec:
   selector:
     matchLabels:
       app.kubernetes.io/name: kanboard
-      app.kubernetes.io/component: backend
   template:
     metadata:
       labels:
         app.kubernetes.io/name: kanboard
-        app.kubernetes.io/component: backend
     spec:
       containers:
         - name: kanboard
@@ -24,11 +22,37 @@ spec:
           ports:
             - containerPort: 80
               name: http
+          envFrom:
+            - configMapRef:
+                name: kanboard-config
           env:
-            - name: API_AUTHENTICATION_HEADER
-              value: ""
-            - name: DEBUG
-              value: "false"
+            # PostgreSQL Database Configuration
+            - name: DB_DRIVER
+              value: "postgres"
+            - name: DB_HOSTNAME
+              value: "kanboard-postgres.hr-project-tracking.svc.cluster.local"
+            - name: DB_PORT
+              value: "5432"
+            - name: DB_NAME
+              value: "kanboard"
+            - name: DB_USERNAME
+              value: "kanboard"
+            - name: DB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: kanboard-postgres-secret
+                  key: password
+            # Brevo SMTP credentials
+            - name: MAIL_SMTP_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: brevo-smtp-credentials
+                  key: login
+            - name: MAIL_SMTP_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: brevo-smtp-credentials
+                  key: key
           volumeMounts:
             - name: kanboard-data
               mountPath: /var/www/app/data
@@ -56,7 +80,7 @@ spec:
       volumes:
         - name: kanboard-data
           persistentVolumeClaim:
-            claimName: kanboard-data
+            claimName: kanboard-data-pvc
         - name: kanboard-plugins
           persistentVolumeClaim:
-            claimName: kanboard-plugins
+            claimName: kanboard-plugins-pvc

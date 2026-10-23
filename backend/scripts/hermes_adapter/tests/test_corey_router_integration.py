@@ -13,7 +13,12 @@ import pytest
 from unittest.mock import patch, MagicMock, AsyncMock
 import httpx
 
-from scripts.hermes_adapter.scripts.hermes_client import (
+import sys
+import os
+# Add parent directory to path for imports
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', 'scripts'))
+
+from hermes_client import (
     complete,
     HermesResult,
     _parse_reply,

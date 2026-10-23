@@ -5,7 +5,7 @@
  * Implements UI-14.
  */
 
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { useWorkers } from '../../hooks/useKanboard';
 import { kanboardAPI, Story, Worker } from '../../api/kanboard';
 

@@ -5,7 +5,7 @@
  * Implements UI-07.
  */
 
-import React from 'react';
+// import React from 'react';
 import { useValidation } from '../../hooks/useKanboard';
 
 export interface ValidationResultProps {

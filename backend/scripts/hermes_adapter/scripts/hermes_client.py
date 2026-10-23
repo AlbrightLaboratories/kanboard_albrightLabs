@@ -259,8 +259,14 @@ def _classify_and_select_model(messages: list[dict]) -> str:
     Returns:
         Model name string
     """
-    from scripts.hermes_comment_listener.scripts.question_classifier import QuestionClassifier
-    from scripts.hermes_comment_listener.scripts.model_selector import ModelSelector
+    import sys
+    import os
+    # Add hermes_comment_listener to path
+    hermes_listener_path = os.path.join(os.path.dirname(__file__), '..', '..', 'hermes_comment_listener', 'scripts')
+    if hermes_listener_path not in sys.path:
+        sys.path.insert(0, hermes_listener_path)
+    from question_classifier import QuestionClassifier
+    from model_selector import ModelSelector
 
     # Extract last user message for classification
     user_content = ""

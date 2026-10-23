@@ -17,7 +17,7 @@ describe('SkillTracker - UI-04', () => {
   beforeEach(() => {
     vi.mocked(hooks.useSkillProgress).mockReturnValue({
       progress: {
-        storyId: 123,
+        story_id: 123,
         skills: [
           { name: 'plan', status: 'passed' },
           { name: 'design-a-prd', status: 'passed' },
@@ -27,7 +27,7 @@ describe('SkillTracker - UI-04', () => {
         ]
       },
       loading: false,
-      canMoveToDone: false
+      isComplete: false, canMoveToDone: false
     });
   });
 
@@ -82,7 +82,7 @@ describe('SkillTracker - UI-04', () => {
     vi.mocked(hooks.useSkillProgress).mockReturnValue({
       progress: null,
       loading: true,
-      canMoveToDone: false
+      isComplete: false, canMoveToDone: false
     });
 
     render(<SkillTracker storyId={123} />);
@@ -93,7 +93,7 @@ describe('SkillTracker - UI-04', () => {
     vi.mocked(hooks.useSkillProgress).mockReturnValue({
       progress: null,
       loading: false,
-      canMoveToDone: false
+      isComplete: false, canMoveToDone: false
     });
 
     const { container } = render(<SkillTracker storyId={123} />);
@@ -111,7 +111,7 @@ describe('SkillTracker - UI-05 (Skill Gate)', () => {
   it('shows warning when skills incomplete', () => {
     vi.mocked(hooks.useSkillProgress).mockReturnValue({
       progress: {
-        storyId: 123,
+        story_id: 123,
         skills: [
           { name: 'plan', status: 'passed' },
           { name: 'design-a-prd', status: 'pending' },
@@ -121,7 +121,7 @@ describe('SkillTracker - UI-05 (Skill Gate)', () => {
         ]
       },
       loading: false,
-      canMoveToDone: false
+      isComplete: false, canMoveToDone: false
     });
 
     render(<SkillTracker storyId={123} onMoveRequest={mockMoveRequest} />);
@@ -131,7 +131,7 @@ describe('SkillTracker - UI-05 (Skill Gate)', () => {
   it('hides warning when all skills complete', () => {
     vi.mocked(hooks.useSkillProgress).mockReturnValue({
       progress: {
-        storyId: 123,
+        story_id: 123,
         skills: [
           { name: 'plan', status: 'passed' },
           { name: 'design-a-prd', status: 'passed' },
@@ -141,7 +141,7 @@ describe('SkillTracker - UI-05 (Skill Gate)', () => {
         ]
       },
       loading: false,
-      canMoveToDone: true
+      isComplete: true, canMoveToDone: true
     });
 
     render(<SkillTracker storyId={123} />);
@@ -151,7 +151,7 @@ describe('SkillTracker - UI-05 (Skill Gate)', () => {
   it('disables Move to Done button when skills incomplete', () => {
     vi.mocked(hooks.useSkillProgress).mockReturnValue({
       progress: {
-        storyId: 123,
+        story_id: 123,
         skills: [
           { name: 'plan', status: 'passed' },
           { name: 'design-a-prd', status: 'pending' },
@@ -161,7 +161,7 @@ describe('SkillTracker - UI-05 (Skill Gate)', () => {
         ]
       },
       loading: false,
-      canMoveToDone: false
+      isComplete: false, canMoveToDone: false
     });
 
     render(<SkillTracker storyId={123} />);
@@ -172,7 +172,7 @@ describe('SkillTracker - UI-05 (Skill Gate)', () => {
   it('enables Move to Done button when all skills complete', () => {
     vi.mocked(hooks.useSkillProgress).mockReturnValue({
       progress: {
-        storyId: 123,
+        story_id: 123,
         skills: [
           { name: 'plan', status: 'passed' },
           { name: 'design-a-prd', status: 'passed' },
@@ -182,7 +182,7 @@ describe('SkillTracker - UI-05 (Skill Gate)', () => {
         ]
       },
       loading: false,
-      canMoveToDone: true
+      isComplete: true, canMoveToDone: true
     });
 
     render(<SkillTracker storyId={123} />);
@@ -193,11 +193,11 @@ describe('SkillTracker - UI-05 (Skill Gate)', () => {
   it('calls onMoveRequest with false when skills incomplete', () => {
     vi.mocked(hooks.useSkillProgress).mockReturnValue({
       progress: {
-        storyId: 123,
+        story_id: 123,
         skills: [{ name: 'plan', status: 'pending' }]
       },
       loading: false,
-      canMoveToDone: false
+      isComplete: false, canMoveToDone: false
     });
 
     render(<SkillTracker storyId={123} onMoveRequest={mockMoveRequest} />);
@@ -208,7 +208,7 @@ describe('SkillTracker - UI-05 (Skill Gate)', () => {
   it('calls onMoveRequest with true when skills complete', () => {
     vi.mocked(hooks.useSkillProgress).mockReturnValue({
       progress: {
-        storyId: 123,
+        story_id: 123,
         skills: [
           { name: 'plan', status: 'passed' },
           { name: 'design-a-prd', status: 'passed' },
@@ -218,7 +218,7 @@ describe('SkillTracker - UI-05 (Skill Gate)', () => {
         ]
       },
       loading: false,
-      canMoveToDone: true
+      isComplete: true, canMoveToDone: true
     });
 
     render(<SkillTracker storyId={123} onMoveRequest={mockMoveRequest} />);

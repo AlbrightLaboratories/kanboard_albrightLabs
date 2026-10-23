@@ -5,7 +5,7 @@
  * Implements UI-04 and UI-05.
  */
 
-import React from 'react';
+// import React from 'react';
 import { useSkillProgress } from '../../hooks/useKanboard';
 
 export interface SkillTrackerProps {

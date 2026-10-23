@@ -5,7 +5,7 @@
  * Implements UI-12.
  */
 
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { useWorkers } from '../../hooks/useKanboard';
 
 export interface WorkerRegistrationProps {

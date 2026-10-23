@@ -4,7 +4,7 @@
  * Draggable story card.
  */
 
-import React from 'react';
+// import React from 'react';
 import { useDraggable } from '@dnd-kit/core';
 import { Story } from '../../api/kanboard';
 

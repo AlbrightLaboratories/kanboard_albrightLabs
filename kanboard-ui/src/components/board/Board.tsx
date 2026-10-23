@@ -5,7 +5,7 @@
  * Implements UI-01 and UI-02.
  */
 
-import React, { useState } from 'react';
+import { useState } from 'react';
 import {
   DndContext,
   DragEndEvent,

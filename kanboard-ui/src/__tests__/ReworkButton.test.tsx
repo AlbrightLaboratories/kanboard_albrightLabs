@@ -24,6 +24,7 @@ describe('ReworkButton - UI-08', () => {
   it('renders rework button when validation failed', () => {
     vi.mocked(hooks.useValidation).mockReturnValue({
       result: {
+        story_id: 123,
         status: 'failed',
         timestamp: Date.now(),
         failures: ['test failed']
@@ -40,6 +41,7 @@ describe('ReworkButton - UI-08', () => {
   it('shows rework button text', () => {
     vi.mocked(hooks.useValidation).mockReturnValue({
       result: {
+        story_id: 123,
         status: 'failed',
         timestamp: Date.now(),
         failures: ['test failed']
@@ -55,6 +57,7 @@ describe('ReworkButton - UI-08', () => {
   it('does not render when validation passed', () => {
     vi.mocked(hooks.useValidation).mockReturnValue({
       result: {
+        story_id: 123,
         status: 'passed',
         timestamp: Date.now(),
         failures: []
@@ -81,6 +84,7 @@ describe('ReworkButton - UI-08', () => {
   it('calls triggerRework when clicked', async () => {
     vi.mocked(hooks.useValidation).mockReturnValue({
       result: {
+        story_id: 123,
         status: 'failed',
         timestamp: Date.now(),
         failures: ['test failed']
@@ -100,6 +104,7 @@ describe('ReworkButton - UI-08', () => {
   it('calls onReworkStarted callback after success', async () => {
     vi.mocked(hooks.useValidation).mockReturnValue({
       result: {
+        story_id: 123,
         status: 'failed',
         timestamp: Date.now(),
         failures: ['test failed']
@@ -121,6 +126,7 @@ describe('ReworkButton - UI-08', () => {
 
     vi.mocked(hooks.useValidation).mockReturnValue({
       result: {
+        story_id: 123,
         status: 'failed',
         timestamp: Date.now(),
         failures: ['test failed']
@@ -141,6 +147,7 @@ describe('ReworkButton - UI-08', () => {
 
     vi.mocked(hooks.useValidation).mockReturnValue({
       result: {
+        story_id: 123,
         status: 'failed',
         timestamp: Date.now(),
         failures: ['test failed']
@@ -161,6 +168,7 @@ describe('ReworkButton - UI-08', () => {
   it('shows hint text', () => {
     vi.mocked(hooks.useValidation).mockReturnValue({
       result: {
+        story_id: 123,
         status: 'failed',
         timestamp: Date.now(),
         failures: ['test failed']

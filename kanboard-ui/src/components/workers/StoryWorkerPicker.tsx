@@ -5,7 +5,7 @@
  * Implements UI-13.
  */
 
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { useWorkers } from '../../hooks/useKanboard';
 import { kanboardAPI, Story } from '../../api/kanboard';
 
