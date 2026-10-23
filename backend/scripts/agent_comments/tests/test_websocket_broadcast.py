@@ -161,7 +161,7 @@ class TestBroadcastHelpers:
     async def test_broadcast_agent_response(self):
         """broadcast_agent_response sends correct message."""
         # Reset singleton and use fresh hub
-        import backend.scripts.agent_comments.websocket_broadcaster as ws_mod
+        from .. import websocket_broadcaster as ws_mod
         original_hub = ws_mod._hub
         ws_mod._hub = None
 
@@ -185,7 +185,7 @@ class TestBroadcastHelpers:
     @pytest.mark.asyncio
     async def test_broadcast_execution_status(self):
         """broadcast_execution_status sends correct message."""
-        import backend.scripts.agent_comments.websocket_broadcaster as ws_mod
+        from .. import websocket_broadcaster as ws_mod
         original_hub = ws_mod._hub
         ws_mod._hub = None
 
@@ -207,7 +207,7 @@ class TestBroadcastHelpers:
     @pytest.mark.asyncio
     async def test_broadcast_comment_added(self):
         """broadcast_comment_added sends correct message."""
-        import backend.scripts.agent_comments.websocket_broadcaster as ws_mod
+        from .. import websocket_broadcaster as ws_mod
         original_hub = ws_mod._hub
         ws_mod._hub = None
 

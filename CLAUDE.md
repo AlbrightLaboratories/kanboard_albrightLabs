@@ -27,10 +27,12 @@ kanboard_albrightLabs/
 │       ├── maestro_api/        # Two-way agent communication (REST + WebSocket)
 │       ├── skill_framework/    # Mandatory skills (plan/prd/tdd/prove-it/release-it)
 │       ├── worker_registry/    # Custom LLM worker management
-│       ├── agent_comments/     # Agent-in-comments feature (86 tests)
+│       ├── agent_comments/     # Agent-in-comments feature
 │       ├── dependency_graph/   # Story dependencies + repo awareness
 │       ├── validation_worker/  # GitHub Actions integration
-│       └── toc_integration/    # Master TOC updates
+│       ├── toc_integration/    # Master TOC updates
+│       ├── hermes_comment_listener/  # Hermes router with question classification
+│       └── hermes_capabilities/      # MCP toolbox + skill pipeline orchestration
 ├── kanboard-mcp/          # MCP Server for Claude integration
 ├── kanboard-ui/           # React frontend with dnd-kit
 ├── mobile/                # React Native mobile app
@@ -42,9 +44,9 @@ kanboard_albrightLabs/
 ## Acceptance Criteria Tracking
 
 All work is tracked via `prd.json` at repo root:
-- **Total ACs**: 118
-- **Proven**: 103 (88%)
-- **Remaining**: 15 (mobile setup + shared tests)
+- **Total ACs**: 162
+- **Proven**: 159 (98%)
+- **Remaining**: 3 (hermes_kanboard_integration UI tests)
 
 Every AC must have:
 - Passing test (commit link + test file link)

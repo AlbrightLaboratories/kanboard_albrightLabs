@@ -354,12 +354,39 @@
         {"id": "HC-22", "description": "Progress updates posted as comments at each skill stage", "test_file": "test_story_orchestrator.py", "commit_link": "90e380e", "test_link": "backend/scripts/hermes_capabilities/scripts/tests/test_story_orchestrator.py", "status": "proven"}
       ],
       "encounters": []
+    },
+    {
+      "name": "hermes_kanboard_integration",
+      "path": "docs/hermes-kanboard-rca.md",
+      "reusable": true,
+      "testable_independently": true,
+      "difficulty": 5,
+      "model_tier": "sonnet",
+      "description": "Fix Hermes visibility of Kanboard from desktop UI - expand skill triggers and SOUL.md instructions",
+      "acceptance_criteria": [
+        {"id": "HKI-01", "description": "SKILL.md has 30+ trigger patterns covering common phrasings", "test_file": "manual_test", "commit_link": "pending", "test_link": "~/.hermes/skills/kanboard/SKILL.md", "status": "proven"},
+        {"id": "HKI-02", "description": "SOUL.md contains explicit 'ALWAYS use kanboard tool when' rules", "test_file": "manual_test", "commit_link": "pending", "test_link": "~/.hermes/SOUL.md", "status": "proven"},
+        {"id": "HKI-03", "description": "Skill cache regenerates with kanboard triggers after restart", "test_file": "manual_test", "commit_link": "pending", "test_link": "~/.hermes/.skills_prompt_snapshot.json", "status": "proven"},
+        {"id": "HKI-04", "description": "Query 'show me the kanboard projects' invokes kanboard tool", "test_file": "manual_test", "commit_link": "pending", "test_link": "hermes desktop UI", "status": "pending"},
+        {"id": "HKI-05", "description": "Query 'what tasks are open' invokes kanboard tool", "test_file": "manual_test", "commit_link": "pending", "test_link": "hermes desktop UI", "status": "pending"},
+        {"id": "HKI-06", "description": "Query 'can you see the board' invokes kanboard tool", "test_file": "manual_test", "commit_link": "pending", "test_link": "hermes desktop UI", "status": "pending"},
+        {"id": "HKI-07", "description": "Kanboard tool returns valid JSON-RPC response with projects", "test_file": "manual_test", "commit_link": "pending", "test_link": "~/.local/bin/kanboard-api", "status": "proven"}
+      ],
+      "encounters": [
+        {
+          "id": "ENC-HKI-01",
+          "problem": "Hermes doesn't see Kanboard from desktop UI but works when tagged at task URL",
+          "root_cause": "Limited skill triggers (11) and tool_search tiering excludes kanboard from visible tools",
+          "solution": "Expanded triggers to 39, added explicit SOUL.md routing rules",
+          "lesson": "Skill triggers need comprehensive coverage of natural language variations"
+        }
+      ]
     }
   ],
   "convergence": {
-    "total_acs": 155,
-    "proven": 155,
-    "unproven": 0,
+    "total_acs": 162,
+    "proven": 159,
+    "unproven": 3,
     "target": 0
   },
   "implementation_order": [
@@ -377,6 +404,7 @@
     "mobile",
     "agent-in-comments",
     "hermes_router",
-    "hermes_capabilities"
+    "hermes_capabilities",
+    "hermes_kanboard_integration"
   ]
 }

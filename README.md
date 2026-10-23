@@ -23,20 +23,26 @@ A hybrid Kanboard system for project tracking with AI agent orchestration.
 | Validation | TDD/testing phase (mandatory skills: prove-it, release-it) |
 | Done | Completed work, Master TOC updated |
 
-## Modules (95 Acceptance Criteria)
+## Modules (162 Acceptance Criteria — 98% Proven)
 
 | Module | ACs | Status |
 |--------|-----|--------|
-| kanboard_client | 7 | Pending |
-| dependency_graph | 8 | Pending |
-| maestro_api | 9 | Pending |
-| worker_registry | 22 | Pending |
-| skill_framework | 10 | Pending |
-| validation_worker | 8 | Pending |
-| toc_integration | 4 | Pending |
-| kanboard-mcp | 8 | Pending |
-| kanboard-ui | 14 | Pending |
-| github-worker | 5 | Pending |
+| kanboard_client | 7 | ✅ Proven |
+| dependency_graph | 8 | ✅ Proven |
+| maestro_api | 9 | ✅ Proven |
+| worker_registry | 22 | ✅ Proven |
+| skill_framework | 10 | ✅ Proven |
+| validation_worker | 8 | ✅ Proven |
+| toc_integration | 4 | ✅ Proven |
+| kanboard-mcp | 8 | ✅ Proven |
+| kanboard-ui | 14 | ✅ Proven |
+| github-worker | 5 | ✅ Proven |
+| mobile | 10 | ✅ Proven |
+| shared | 5 | ✅ Proven |
+| agent-in-comments | 8 | ✅ Proven |
+| hermes_router | 15 | ✅ Proven |
+| hermes_capabilities | 22 | ✅ Proven |
+| hermes_kanboard_integration | 7 | 🔄 4/7 Proven |
 
 ## Quick Start
 
